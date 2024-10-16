@@ -1,0 +1,71 @@
+/* EditInformation.css */
+
+.edit-information-container {
+    max-width: 600px; /* Limiting the width for better readability */
+    margin: 20px auto; /* Centering the container */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+h2 {
+    text-align: center; /* Centering the heading */
+    color: rgb(63, 81, 181); /* Primary color */
+}
+
+.profile-info {
+    margin-bottom: 20px; /* Space between sections */
+}
+
+.profile-detail {
+    display: flex; /* Flex layout for profile details */
+    justify-content: space-between; /* Space out items */
+    align-items: center; /* Centering items vertically */
+    padding: 10px;
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between profile details */
+    background-color: #ffffff; /* White background for profile details */
+}
+
+.profile-detail span {
+    font-weight: bold; /* Making the text bold */
+    color: #333; /* Dark text color */
+}
+
+.edit-button {
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor */
+    color: rgb(63, 81, 181); /* Primary color */
+    font-size: 1.2em; /* Slightly larger font */
+}
+
+.edit-button:hover {
+    color: #1a73e8; /* Change color on hover */
+}
+
+.logout-button {
+    display: flex; /* Flex layout for the logout button */
+    align-items: center; /* Centering icon and text */
+    margin-top: 10px; /* Space above the button */
+    padding: 10px 15px; /* Padding for the button */
+    background-color: rgb(63, 81, 181); /* Primary button color */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 1em; /* Font size */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.logout-button:hover {
+    background-color: #1a73e8; /* Darken on hover */
+}
+
+hr {
+    margin: 20px 0; /* Space above and below the line */
+    border: 0; /* No border */
+    border-top: 1px solid #e0e0e0; /* Light line */
+}

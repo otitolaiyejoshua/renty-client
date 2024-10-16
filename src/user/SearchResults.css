@@ -1,0 +1,19 @@
+/* src/components/SearchResults.css */
+
+.search-results {
+    padding: 20px 40px;
+    text-align: center;
+  }
+  
+  .search-results h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .property-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  

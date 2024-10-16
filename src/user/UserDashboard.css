@@ -1,0 +1,19 @@
+.user-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ensure grid is below the header */
+.user-properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  margin-top: 80px; /* Ensure enough space for the fixed header */
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}

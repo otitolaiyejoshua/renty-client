@@ -1,0 +1,46 @@
+/* src/components/Receipt.css */
+.receipt-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.receipt-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.receipt-content h2 {
+    margin-bottom: 20px;
+}
+
+.receipt-content p {
+    margin: 10px 0;
+}
+
+.receipt-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.receipt-content button:hover {
+    background-color: #45a049;
+}

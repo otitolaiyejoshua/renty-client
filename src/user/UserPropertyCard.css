@@ -1,0 +1,224 @@
+.user-propertycard-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  width: 100%;
+  height:300px;
+}
+
+/* Ensure the image maintains fixed dimensions */
+.user-propertycard-image-container {
+  width: 50%;
+  height: 100%;
+}
+
+.user-propertycard-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Card details are given the remaining space */
+.user-propertycard-details-container {
+  width: 50%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.user-propertycard-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.user-propertycard-address {
+  font-size: 0.9rem;
+  color: rgb(180, 180, 180);
+}
+
+.user-propertycard-description {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.user-propertycard-features {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.feature-icon {
+  color: rgb(63, 81, 181);
+  font-size: 1.2rem;
+}
+
+.user-propertycard-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction:column;
+}
+.buttonactions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction:row
+;}
+
+.user-propertycard-price {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.user-propertycard-button {
+  background-color: rgb(63, 81, 181);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-right:2.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-propertycard-button:hover {
+  background-color: white;
+  color: rgb(63, 81, 181);
+  border: 1px solid rgb(63, 81, 181);
+}
+@media screen and (min-width:320px) and (max-width:1023px){
+  .inspect-modal{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width:70%;
+    height:70%;
+    border:1px solid white;
+    border-radius:8px;
+  }
+  h2{
+    font-size:100%;
+    text-align: center;
+  }
+  #inspection-content{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .inspection-actions{
+    width:90%;
+    height:15%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .image-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    width:90%;
+  }
+  .image-grid img{
+    width:120px;
+    height:100px;
+    cursor:pointer;
+  }
+  .expanded-image{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    z-index:1000;
+  }
+  .expanded-image img{
+    max-width:90vw;
+    max-height:90vh;
+  }
+  .inspection-buttons {
+    background-color: rgb(63, 81, 181);
+    color: white;
+    border: none;
+    width:90%;
+    height:90%;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom:2.5px;
+  }
+}
+@media screen and (min-width:1024px){
+  .inspect-modal{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width:50%;
+    height:50%;
+    border:1px solid white;
+    border-radius:8px;
+  }
+  #inspection-content{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .inspection-actions{
+    width:90%;
+    height:10%;
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .image-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    width:90%;
+  }
+  .image-grid img{
+    width:120px;
+    height:100px;
+    cursor:pointer;
+  }
+  .expanded-image{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    z-index:1000;
+  }
+  .expanded-image img{
+    max-width:90vw;
+    max-height:90vh;
+  }
+  .inspection-buttons {
+    background-color: rgb(63, 81, 181);
+    color: white;
+    border: none;
+    width:45%;
+    height:100%;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+}

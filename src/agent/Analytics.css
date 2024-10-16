@@ -1,0 +1,47 @@
+/* client/src/components/Analytics.css */
+
+.analytics-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-height: 80vh;
+}
+
+.analytics-container h2 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    color: #333;
+    text-align: center;
+}
+
+.analytics-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    color: #555;
+}
+
+.card p {
+    font-size: 2.5em;
+    color: #000;
+    margin: 0;
+}
