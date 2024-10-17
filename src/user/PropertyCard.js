@@ -1,9 +1,7 @@
 // src/components/PropertyCard.js
 import React, { useState } from 'react';
-import KitchenIcon from '@material-ui/icons/Kitchen';
-import BedIcon from '@material-ui/icons/Hotel';
-import BathtubIcon from '@material-ui/icons/Bathtub';
-import WcIcon from '@material-ui/icons/Wc';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faKitchenSet, faBed, faBathtub, faToilet } from '@fortawesome/free-solid-svg-icons'; // Import Font Awesome icons
 import { usePaystackPayment } from 'react-paystack';
 import './UserPropertyCard.css';
 import { PAYSTACK_PUBLIC_KEY } from './paystackConfig';
@@ -143,16 +141,16 @@ const PropertyCard = ({ property, onInspect }) => {
                     <p className="user-propertycard-description">{property.description}</p>
                     <div className="user-propertycard-features">
                         <div className="feature">
-                            <BedIcon className="feature-icon" /> {property.rooms}
+                            <FontAwesomeIcon icon={faBed} className="feature-icon" /> {property.rooms}
                         </div>
                         <div className="feature">
-                            <KitchenIcon className="feature-icon" /> {property.kitchens}
+                            <FontAwesomeIcon icon={faKitchenSet} className="feature-icon" /> {property.kitchens}
                         </div>
                         <div className="feature">
-                            <BathtubIcon className="feature-icon" /> {property.bathrooms}
+                            <FontAwesomeIcon icon={faBathtub} className="feature-icon" /> {property.bathrooms}
                         </div>
                         <div className="feature">
-                            <WcIcon className="feature-icon" /> {property.toilets}
+                            <FontAwesomeIcon icon={faToilet} className="feature-icon" /> {property.toilets}
                         </div>
                     </div>
                     <div className="user-propertycard-actions">

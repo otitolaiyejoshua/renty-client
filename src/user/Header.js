@@ -1,11 +1,18 @@
 // src/components/Header.js
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faGear, faBell, faEnvelope, faSearch, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { Menu, Close } from '@material-ui/icons'; // Ensure @material-ui/icons is installed
+import { 
+  faHome, 
+  faGear, 
+  faBell, 
+  faEnvelope, 
+  faSearch, 
+  faPaperPlane, 
+  faBars, // Font Awesome icon for the hamburger menu
+  faTimes // Font Awesome icon for the close menu
+} from '@fortawesome/free-solid-svg-icons'; // Ensure to import the correct icons
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -21,11 +28,9 @@ const Header = () => {
   const handleSearch = async () => {
     if (query.trim() === '') {
       return;
-    }
-    else{
+    } else {
       navigate(`/search?query=${encodeURIComponent(query.trim())}`);
-    } 
-    
+    }
   };
 
   // Toggle navigation menu (for mobile or responsive design)
@@ -52,16 +57,16 @@ const Header = () => {
             placeholder="Search by university..."
             autoComplete="off"
           />
-          <FontAwesomeIcon 
-            icon={faSearch} 
-            className="search-icon" 
-            onClick={handleSearch} 
-            style={{ cursor: 'pointer' }} 
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="search-icon"
+            onClick={handleSearch}
+            style={{ cursor: 'pointer' }}
           />
         </div>
       </div>
       <span className="hamburger" onClick={toggleNav}>
-        {open ? <Close /> : <Menu />}
+        {open ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faBars} />}
       </span>
       <ul className={`nav-drop ${open ? 'open' : ''}`}>
         <li className="nav-drop-list">
