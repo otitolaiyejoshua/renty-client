@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import KitchenIcon from '@material-ui/icons/Kitchen';
-import BathtubIcon from '@material-ui/icons/Bathtub';
-import KingBedIcon from '@material-ui/icons/KingBed';
-import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService'; // For toilets
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'; // More options icon
+import { faKitchenSet, faBathtub, faBed, faToilet } from '@fortawesome/free-solid-svg-icons'; // Kitchen, Bathroom, Bed, Toilet icons
 import './Properties.css';
 import { getUserData } from '../getUserData';
+
 Modal.setAppElement('#root');
+
 const Properties = () => {
   const [properties, setProperties] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +32,7 @@ const Properties = () => {
   const userData = getUserData();
   const agentId = userData ? userData.userId : null;
   const token = userData ? userData.token : null;
+
   useEffect(() => {
     const fetchProperties = async () => {
       try {
@@ -53,6 +54,7 @@ const Properties = () => {
   const handleMainImageChange = (e) => {
     setMainImage(e.target.files[0]);
   };
+
   const handleInteriorImagesChange = (e) => {
     const newFiles = Array.from(e.target.files);
     
@@ -74,7 +76,7 @@ const Properties = () => {
     setAnimationClass('fade-in');
     setTimeout(() => setAnimationClass(''), 500); // Reset animation class after 500ms
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -132,7 +134,7 @@ const Properties = () => {
     setSelectedProperty(property);
     setTitle(property.title);
     setAddress(property.address);
-    setRegion(property.region)
+    setRegion(property.region);
     setUniversity(property.university);
     setPrice(property.price);
     setBathrooms(property.bathrooms);
@@ -208,15 +210,23 @@ const Properties = () => {
               <p>{property.address}</p>
               <p>₦{property.price}</p>
               <div className="property-details">
-                <span><KitchenIcon className="agenticon" fontSize="small" /> {property.kitchens} Kitchen{property.kitchens > 1 ? 's' : ''}</span>
-                <span><BathtubIcon className="agenticon" fontSize="small" /> {property.bathrooms} Bathroom{property.bathrooms > 1 ? 's' : ''}</span>
-                <span><LocalLaundryServiceIcon className="agenticon" fontSize="small" /> {property.toilets} Toilet{property.toilets > 1 ? 's' : ''}</span>
-                <span><KingBedIcon className="agenticon" fontSize="small" /> {property.rooms} Room{property.rooms > 1 ? 's' : ''}</span>
+                <span>
+                  <FontAwesomeIcon icon={faKitchenSet} className="agenticon" /> {property.kitchens} Kitchen{property.kitchens > 1 ? 's' : ''}
+                </span>
+                <span>
+                  <FontAwesomeIcon icon={faBathtub} className="agenticon" /> {property.bathrooms} Bathroom{property.bathrooms > 1 ? 's' : ''}
+                </span>
+                <span>
+                  <FontAwesomeIcon icon={faToilet} className="agenticon" /> {property.toilets} Toilet{property.toilets > 1 ? 's' : ''}
+                </span>
+                <span>
+                  <FontAwesomeIcon icon={faBed} className="agenticon" /> {property.rooms} Room{property.rooms > 1 ? 's' : ''}
+                </span>
               </div>
               <div className="property-actions">
                 <div className="menu">
                   <IconButton className="menu-button" onClick={() => toggleMenu(property._id)}>
-                    <MoreVertIcon />
+                    <FontAwesomeIcon icon={faEllipsisV} />
                   </IconButton>
                   <div className={`menu-content ${showMenu === property._id ? 'show' : ''}`}>
                     <div onClick={() => handleEditClick(property)}>Edit</div>
@@ -228,67 +238,34 @@ const Properties = () => {
           ))}
         </div>
       )}
-      <div className="create-new-button-container">
-        <button className="create-new-button" onClick={() => setShowModal(true)}>Create New Property Listing</button>
-      </div>
-      <Modal isOpen={showModal} className="pmodal" onRequestClose={() => setShowModal(false)} contentLabel="Property Form" overlayClassName="poverlay">
-  <h2 className="propertyheading">{editMode ? 'Edit Property' : 'Add New Property'}</h2>
-  <form onSubmit={handleSubmit} className="agentform">
-    <div>
-      <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
-    </div>
-    <div>
-      <input type="text" placeholder="State" value={region} onChange={(e) => setRegion(e.target.value)} required />
-    </div>
-    <div>
-      <input type="text" placeholder="University in the Region" value={university} onChange={(e) => setUniversity(e.target.value)} required />
-    </div>
-    <div>
-      <input type="text" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} required />
-    </div>
-    <div>
-      <input type="number" placeholder="0.00" value={price} onChange={(e) => setPrice(e.target.value)} required />
-    </div>
-    <div className="row-fields">
-      <div className="field">
-        <input placeholder="Bathrooms" type="number" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} required />
-      </div>
-      <div className="field">
-        <input placeholder="Toilets" type="number" value={toilets} onChange={(e) => setToilets(e.target.value)} required />
-      </div>
-    </div>
-    <div className="row-fields">
-      <div className="field">
-        <input placeholder="Rooms" type="number" value={rooms} onChange={(e) => setRooms(e.target.value)} required />
-      </div>
-      <div className="field">
-        <input placeholder="Kitchens" type="number" value={kitchens} onChange={(e) => setKitchens(e.target.value)} required />
-      </div>
-    </div>
-     <div className="image-row">
-      <div className="image-upload">
-        <label>
-          <img className="uploadimage" src="/images/interiorimage.png" alt="Upload Image" />
-          <input type="file" accept="image/*" onChange={handleMainImageChange} />
-        </label>
-        {mainImage && <img src={URL.createObjectURL(mainImage)} alt="Main" className="image-preview" />}
-      </div>
-      <div className="image-upload">
-        <label>
-          <img className="uploadimage" src="/images/interiorimage.png" alt="Upload Image" />
-          <input type="file" accept="image/*" multiple onChange={handleInteriorImagesChange} />
-        </label>
-        <div className={`image-upload-status ${animationClass}`}>{imageUploadStatus}</div>
-        <div className="image-preview-container">
-          {interiorImages.map((image, index) => (
-            <img key={index} src={URL.createObjectURL(image)} alt={`Interior ${index + 1}`} className="image-preview" />
-          ))}
-        </div>
-      </div>
-    </div>
-    <button className="submit" type="submit">{editMode ? 'Update Property' : 'Add Property'}</button>
-  </form>
-</Modal>
+      <button className="create-property-button" onClick={() => { setShowModal(true); resetForm(); }}>
+        Create New Property Listing
+      </button>
+      <Modal
+        isOpen={showModal}
+        onRequestClose={() => setShowModal(false)}
+        contentLabel="Property Form"
+        className="modal"
+        overlayClassName="overlay"
+      >
+        <h2>{editMode ? 'Edit Property' : 'Create Property'}</h2>
+        <form onSubmit={handleSubmit}>
+          <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+          <input type="text" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} required />
+          <input type="text" placeholder="Region" value={region} onChange={(e) => setRegion(e.target.value)} required />
+          <input type="text" placeholder="University" value={university} onChange={(e) => setUniversity(e.target.value)} required />
+          <input type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required />
+          <input type="number" placeholder="Bathrooms" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} required />
+          <input type="number" placeholder="Toilets" value={toilets} onChange={(e) => setToilets(e.target.value)} required />
+          <input type="number" placeholder="Rooms" value={rooms} onChange={(e) => setRooms(e.target.value)} required />
+          <input type="number" placeholder="Kitchens" value={kitchens} onChange={(e) => setKitchens(e.target.value)} required />
+          <input type="file" accept="image/*" onChange={handleMainImageChange} required />
+          <input type="file" accept="image/*" multiple onChange={handleInteriorImagesChange} required />
+          <p className={`image-upload-status ${animationClass}`}>{imageUploadStatus}</p>
+          <button type="submit">{editMode ? 'Update Property' : 'Create Property'}</button>
+          <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
+        </form>
+      </Modal>
     </div>
   );
 };
