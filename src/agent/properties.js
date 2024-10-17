@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
-import IconButton from '@material-ui/core/IconButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'; // More options icon
 import { faKitchenSet, faBathtub, faBed, faToilet } from '@fortawesome/free-solid-svg-icons'; // Kitchen, Bathroom, Bed, Toilet icons
@@ -217,17 +216,21 @@ const Properties = () => {
                   <FontAwesomeIcon icon={faBathtub} className="agenticon" /> {property.bathrooms} Bathroom{property.bathrooms > 1 ? 's' : ''}
                 </span>
                 <span>
-                  <FontAwesomeIcon icon={faToilet} className="agenticon" /> {property.toilets} Toilet{property.toilets > 1 ? 's' : ''}
+                  <FontAwesomeIcon icon={faBed} className="agenticon" /> {property.rooms} Room{property.rooms > 1 ? 's' : ''}
                 </span>
                 <span>
-                  <FontAwesomeIcon icon={faBed} className="agenticon" /> {property.rooms} Room{property.rooms > 1 ? 's' : ''}
+                  <FontAwesomeIcon icon={faToilet} className="agenticon" /> {property.toilets} Toilet{property.toilets > 1 ? 's' : ''}
                 </span>
               </div>
               <div className="property-actions">
                 <div className="menu">
-                  <IconButton className="menu-button" onClick={() => toggleMenu(property._id)}>
+                  <button
+                    className="menu-button"
+                    onClick={() => toggleMenu(property._id)}
+                    type="button"
+                  >
                     <FontAwesomeIcon icon={faEllipsisV} />
-                  </IconButton>
+                  </button>
                   <div className={`menu-content ${showMenu === property._id ? 'show' : ''}`}>
                     <div onClick={() => handleEditClick(property)}>Edit</div>
                     <div onClick={() => handleDeleteClick(property._id)}>Delete</div>

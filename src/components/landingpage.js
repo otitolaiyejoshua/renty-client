@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Home, Menu, Close } from '@material-ui/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function LandingPage({ openLoginPopup, openSignupPopup, handleScroll }) {
   const [open, setOpen] = useState(false);
@@ -13,12 +14,12 @@ function LandingPage({ openLoginPopup, openSignupPopup, handleScroll }) {
       <div className="header">
         <img className="logo" alt="logo" src="images/logos.jpg" />
         <span className="nav-opener" onClick={toggleNav}>
-          {open ? <Close /> : <Menu />}
+          {open ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faBars} />}
         </span>
         <ul className={`nav-items ${open ? 'open' : ''}`}>
           <li>
             <span className="links" onClick={() => handleScroll('main')}>
-              Home
+              <FontAwesomeIcon icon={faHome} /> Home
             </span>
           </li>
           <li>
