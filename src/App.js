@@ -6,7 +6,7 @@ import AgentDashboard from './agent/agent-dashboard.js';
 import Properties from './agent/properties.js';
 import SearchResults from './user/SearchResult.js';
 import Analytics from './agent/Analytics.js';
-import GroupForum from './pages/forum.js';
+import GroupForum from './pages/GroupForum.js';
 import PrivateChat from './pages/privatechat.js';
 import Settings from './settings.js';
 import AgentSettings from './agent/agentsettings.js';
