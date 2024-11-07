@@ -1,0 +1,260 @@
+/* General Styling */
+.private-chat-container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: row;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 25%;
+    background-color: #3f51b5;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+.sidebar-header {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 1.5em;
+}
+
+/* Search Section */
+.search-section h2 {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-top: 1em;
+}
+
+/* Chat List & User List */
+.chat-list, .user-list {
+    overflow-y: auto;
+    margin-bottom: 1em;
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #3f51b5;
+}
+
+/* Chat and User Items */
+.chat-item, .user-item {
+    padding: 1em;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.chat-item:hover, .user-item:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Chat Window */
+.chat-window {
+    flex-grow: 1;
+    padding: 2em;
+    background-color: #f4f4f8;
+    display: flex;
+    flex-direction: column;
+    color: #333333;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Message Container */
+.messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 1em;
+    padding: 1.5em;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Sent and Received Message Styles */
+.message {
+    margin-bottom: 0.5em;
+    padding: 0.7em 1.2em;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+/* Sent Messages */
+.sent {
+    text-align: right;
+    background-color: #e3f2fd;
+    color: #333;
+    align-self: flex-end;
+    border-radius: 8px 8px 0 8px;
+}
+
+/* Received Messages */
+.received {
+    text-align: left;
+    background-color: #eeeeee;
+    color: #333;
+    align-self: flex-start;
+    border-radius: 8px 8px 0 8px;
+}
+
+/* Message Input Area */
+.message-form {
+    display: flex;
+    margin-top: 1em;
+}
+
+/* Message Input Field */
+.message-input {
+    flex-grow: 1;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.message-input:focus {
+    border-color: #3f51b5;
+    outline: none;
+}
+
+/* Send Button */
+.send-button {
+    padding: 0.8em 1.5em;
+    background-color: #3f51b5;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.send-button:hover {
+    background-color: #303f9f;
+    transform: translateY(-2px);
+}
+
+.send-button:active {
+    transform: translateY(1px);
+}
+
+/* Media Queries for Responsiveness */
+
+/* For screens smaller than 1200px (tablets and smaller laptops) */
+@media (max-width: 1200px) {
+    .private-chat-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 1.5em;
+    }
+
+    .chat-window {
+        padding: 1.5em;
+    }
+
+    .send-button {
+        width: 100%;
+        padding: 0.8em;
+    }
+}
+
+/* For screens smaller than 768px (tablets and smaller) */
+@media (max-width: 768px) {
+    .private-chat-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 1em;
+        box-shadow: none;
+    }
+
+    .sidebar-header {
+        font-size: 1.5em;
+    }
+
+    .search-section h2 {
+        font-size: 1.1em;
+    }
+
+    .chat-list, .user-list {
+        margin-bottom: 1em;
+        overflow-y: auto;
+    }
+
+    .chat-item, .user-item {
+        padding: 0.8em;
+    }
+
+    .chat-window {
+        padding: 1em;
+    }
+
+    .message-form {
+        flex-direction: column;
+    }
+
+    .message-input {
+        padding: 0.8em;
+        font-size: 0.9em;
+    }
+
+    .send-button {
+        width: 100%;
+        padding: 0.8em;
+    }
+}
+
+/* For screens smaller than 480px (mobile phones) */
+@media (max-width: 480px) {
+    .private-chat-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 1em;
+        box-shadow: none;
+    }
+
+    .sidebar-header {
+        font-size: 1.4em;
+    }
+
+    .search-section h2 {
+        font-size: 1em;
+    }
+
+    .chat-item, .user-item {
+        padding: 0.8em;
+        font-size: 1em;
+    }
+
+    .message-form {
+        flex-direction: row;
+    }
+
+    .message-input {
+        padding: 0.8em;
+        font-size: 0.9em;
+    }
+
+    .send-button {
+        width: 100%;
+        padding: 0.8em;
+    }
+
+    .messages {
+        padding: 1em;
+    }
+}

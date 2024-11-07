@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './Settings.css'; // Assuming you have a CSS file for styling
 
 function Settings() {
-    const [phonenumber, setPhonenumber] = useState('');
+    const [email, setemail] = useState('');
     const [username, setUsername] = useState('');
     const userData = getUserData();
     const token = userData ? userData.token : null;
@@ -22,7 +22,7 @@ function Settings() {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                setPhonenumber(res.data.pnumber);
+                setemail(res.data.email);
                 setUsername(res.data.username);
             } catch (err) {
                 console.error(err);
@@ -53,7 +53,7 @@ function Settings() {
                     <span>Username: {username}</span>
                 </div>
                 <div className="profile-detail">
-                    <span>Phone Number: {phonenumber}</span>
+                    <span>Phone Number: {email}</span>
                 </div>
                 <Link to="/user-dashboard/edit-information">
                     <button>Edit Information</button>

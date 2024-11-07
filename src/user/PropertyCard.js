@@ -1,53 +1,40 @@
 // src/components/PropertyCard.js
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faKitchenSet, faBed, faBathtub, faToilet } from '@fortawesome/free-solid-svg-icons'; // Import Font Awesome icons
+import { faKitchenSet, faBed, faBathtub, faToilet } from '@fortawesome/free-solid-svg-icons';
 import { usePaystackPayment } from 'react-paystack';
 import './UserPropertyCard.css';
 import { PAYSTACK_PUBLIC_KEY } from './paystackConfig';
 import { getUserData } from '../getUserData';
-import Receipt from './Receipt'; // Import the Receipt component
+import Receipt from './Receipt';
 
 const PropertyCard = ({ property, onInspect }) => {
     // Retrieve user data from localStorage
     const userData = getUserData();
     const userId = userData ? userData.userId : null;
-    const userPhone = userData ? userData.phone : null;
-    const userName = userData ? userData.name : null; // Ensure 'name' exists
-    const userEmail = userData && userData.email 
-        ? userData.email 
-        : `user${userData.phone}@yourapp.com`; // Ensure 'email' exists
+    const userEmail = userData ? userData.email : null;
 
-    // Retrieve agent data from property
-    const agentId = property.agentId; // Ensure 'agentId' is part of the property object
-
-    // State to manage booking payment reference and receipt
     const [bookingReference, setBookingReference] = useState(null);
-    const [receipt, setReceipt] = useState(null); // State for receipt
+    const [receipt, setReceipt] = useState(null);
 
-    // Initialize Paystack Payment
+    // Initialize Paystack Payment with required fields
     const initializePayment = usePaystackPayment({
         email: userEmail,
-        amount: property.price * 100, // Amount in kobo
+        amount: property.price * 100,
         reference: bookingReference,
         publicKey: PAYSTACK_PUBLIC_KEY,
         metadata: {
             propertyId: property.id,
-            userId: userId,
+            userId,
             paymentType: 'booking',
-            userPhone: userPhone,
-            agentId: agentId,
         },
     });
 
-    // Handle successful booking payment
     const handleBookingSuccess = (reference) => {
         console.log('Booking Payment Successful!', reference);
-        // Send reference to backend for verification and recording
         verifyPayment(reference.reference);
     };
 
-    // Handle payment dialog close without completing booking payment
     const handleBookingClose = () => {
         console.log('Booking Payment dialog closed.');
     };
@@ -55,18 +42,17 @@ const PropertyCard = ({ property, onInspect }) => {
     // Function to verify payment on backend
     const verifyPayment = async (reference) => {
         try {
-            const response = await fetch('http://localhost:5000/api/payments/payments/verify', { // Corrected endpoint
+            const response = await fetch('http://localhost:5000/api/payments/payments/verify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    reference: reference,
+                    reference,
                     propertyId: property.id,
-                    userId: userId,
+                    userId,
+                    userEmail,
                     paymentType: 'booking',
-                    userPhone: userPhone,
-                    agentId: agentId,
                 }),
             });
 
@@ -78,7 +64,6 @@ const PropertyCard = ({ property, onInspect }) => {
             const data = await response.json();
 
             if (data.success) {
-                // Set the receipt data
                 setReceipt(data.payment);
             } else {
                 alert('Payment Verification Failed.');
@@ -89,22 +74,18 @@ const PropertyCard = ({ property, onInspect }) => {
         }
     };
 
-    // Initiate booking payment
     const initiateBookingPayment = () => {
-        // Send request to backend to initiate payment and get a reference
-        fetch('http://localhost:5000/api/payments/payments/initiate', { // Corrected endpoint
+        fetch('http://localhost:5000/api/payments/payments/initiate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: userEmail, // Use actual user email
-                amount: property.price * 100, // Amount in kobo
+                email: userEmail,
+                amount: property.price * 100,
                 propertyId: property.id,
-                userId: userId,
+                userId,
                 paymentType: 'booking',
-                userPhone: userPhone,
-                agentId: agentId,
             }),
         })
             .then((response) => {
@@ -117,7 +98,7 @@ const PropertyCard = ({ property, onInspect }) => {
             })
             .then((data) => {
                 if (data.reference) {
-                    setBookingReference(data.reference); // Set the reference for Paystack
+                    setBookingReference(data.reference);
                     initializePayment(handleBookingSuccess, handleBookingClose);
                 } else {
                     alert('Failed to initiate booking payment.');

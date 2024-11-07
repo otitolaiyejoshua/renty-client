@@ -5,7 +5,7 @@ import { getUserData } from '../getUserData'; // Adjust the path as necessary
 function AgentSettings() {
     const [profile, setProfile] = useState({
         username: '',
-        phonenumber: '',
+        email: '',
         agency_name: '',
         idDocument: null,
         ownershipCertificate: null
@@ -13,7 +13,7 @@ function AgentSettings() {
 
     const [form, setForm] = useState({
         username: '',
-        phonenumber: '',
+        email: '',
         agency_name: '',
         currentPassword: '',
         newPassword: ''
@@ -44,14 +44,14 @@ function AgentSettings() {
                 });
                 setProfile({
                     username: res.data.username || '',
-                    phonenumber: res.data.phonenumber || '',
+                    email: res.data.email || '',
                     agency_name: res.data.agency_name || '',
                     idDocument: res.data.idDocument || '',
                     ownershipCertificate: res.data.ownershipCertificate || ''
                 });
                 setForm({
                     username: res.data.username || '',
-                    phonenumber: res.data.phonenumber || '',
+                    email: res.data.email || '',
                     agency_name: res.data.agency_name || '',
                     currentPassword: '',
                     newPassword: ''
@@ -95,7 +95,7 @@ function AgentSettings() {
 
         const formData = new FormData();
         formData.append('username', form.username);
-        formData.append('phonenumber', form.phonenumber);
+        formData.append('email', form.email);
         formData.append('agency_name', form.agency_name);
         formData.append('idDocument', profile.idDocument);
         formData.append('ownershipCertificate', profile.ownershipCertificate);
@@ -164,8 +164,8 @@ function AgentSettings() {
                     Phone Number:
                     <input
                         type="text"
-                        name="phonenumber"
-                        value={form.phonenumber}
+                        name="email"
+                        value={form.email}
                         onChange={handleChange}
                         required
                     />

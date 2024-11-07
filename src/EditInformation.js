@@ -11,7 +11,7 @@ function EditInformation() {
 
     const [form, setForm] = useState({
         username: '',
-        phonenumber: '',
+        email: '',
         currentPassword: '',
         newPassword: ''
     });
@@ -29,7 +29,7 @@ function EditInformation() {
                 });
                 setForm({
                     username: res.data.username,
-                    phonenumber: res.data.phonenumber,
+                    email: res.data.email,
                     currentPassword: '',
                     newPassword: ''
                 });
@@ -61,7 +61,7 @@ function EditInformation() {
         try {
             const res = await axios.put(`http://localhost:5000/api/userSettings/profile`, {
                 username: form.username,
-                phonenumber: form.phonenumber
+                email: form.email
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -96,8 +96,8 @@ function EditInformation() {
                     Phone Number:
                     <input
                         type="text"
-                        name="phonenumber"
-                        value={form.phonenumber}
+                        name="email"
+                        value={form.email}
                         onChange={handleChange}
                         required
                     />

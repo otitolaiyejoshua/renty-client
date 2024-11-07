@@ -82,7 +82,7 @@ const Header = () => {
           <span className="dlabel">Notifications</span>
         </li>
         <li className="nav-drop-list">
-          <Link to="/messages" className="dlinks">
+          <Link to="/chats" className="dlinks">
             <FontAwesomeIcon icon={faEnvelope} className="dicon" />
           </Link>
           <span className="dlabel">Messages</span>
@@ -101,10 +101,18 @@ const Header = () => {
         </li>
       </ul>
       <div className="header-right">
-        <FontAwesomeIcon icon={faBell} className="icon" />
-        <FontAwesomeIcon icon={faEnvelope} className="icon" />
-        <FontAwesomeIcon icon={faPaperPlane} className="icon" />
-        <FontAwesomeIcon icon={faGear} className="icon" />
+        <Link to="/notifications">
+          <FontAwesomeIcon icon={faBell} className="icon" />
+        </Link>
+        <Link to="/chats">
+          <FontAwesomeIcon icon={faEnvelope} className="icon" />
+        </Link>
+        <Link to="/forum">
+          <FontAwesomeIcon icon={faPaperPlane} className="icon" />
+        </Link>
+        <Link to="/user-dashboard/settings">
+          <FontAwesomeIcon icon={faGear} className="icon" />
+        </Link>
       </div>
     </header>
   );

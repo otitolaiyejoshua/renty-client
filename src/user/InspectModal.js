@@ -14,41 +14,38 @@ const InspectModal = ({ property, onClose }) => {
     // Retrieve user data
     const userData = getUserData();
     const userId = userData ? userData.userId : null;
-    const userPhone = userData ? userData.phone : null;
-    const userName = userData ? userData.name : null; // Ensure 'name' exists
-    const userEmail = userData ? userData.email : null; // Ensure 'email' exists
-
+    const userEmail = userData ? userData.email : null;
     // Retrieve agent data from property
     const agentId = property.agentId; // Ensure 'agentId' is part of the property object
 
-    // Define payment configuration object
-    const paymentConfig = {
-        reference: paymentReference,
+    // State to manage inspection payment reference and receipt
+    const [inspectionReference, setinspectionReference] = useState(null);
+    // Initialize Paystack Payment
+    const inspectionPrice = 3500; // Convert price to kobo for inspection
+    console.log(inspectionPrice);
+    const initializePayment = usePaystackPayment({
         email: userEmail,
-        amount: property.inspectionFee * 100, // Convert to kobo
+        amount: inspectionPrice, // Amount in kobo
+        reference: inspectionReference,
         publicKey: PAYSTACK_PUBLIC_KEY,
         metadata: {
             propertyId: property.id,
             userId: userId,
             paymentType: 'inspection',
-            userPhone: userPhone,
             agentId: agentId,
         },
-    };
+    });
 
-    // Initialize Paystack payment hook at the top level
-    const initializePayment = usePaystackPayment(paymentConfig);
-
-    // Handle successful payment
-    const handlePaymentSuccess = (reference) => {
-        console.log('Payment Successful!', reference);
-        // Handle successful payment, e.g., verify on backend
+    // Handle successful inspection payment
+    const handleinspectionSuccess = (reference) => {
+        console.log('inspection Payment Successful!', reference);
+        // Send reference to backend for verification and recording
         verifyPayment(reference.reference);
     };
 
-    // Handle payment dialog close
-    const handlePaymentClose = () => {
-        console.log('Payment dialog closed.');
+    // Handle payment dialog close without completing inspection payment
+    const handleinspectionClose = () => {
+        console.log('inspection Payment dialog closed.');
     };
 
     // Function to verify payment on backend
@@ -64,7 +61,7 @@ const InspectModal = ({ property, onClose }) => {
                     propertyId: property.id,
                     userId: userId,
                     paymentType: 'inspection',
-                    userPhone: userPhone,
+                    userEmail,
                     agentId: agentId,
                 }),
             });
@@ -83,49 +80,49 @@ const InspectModal = ({ property, onClose }) => {
                 alert('Payment Verification Failed.');
             }
         } catch (error) {
-            console.error('Error verifying payment:', error);
-            alert(`An error occurred during payment verification: ${error.message}`);
+            console.error('Error verifying inspection payment:', error);
+            alert(`An error occurred during inspection payment verification: ${error.message}`);
         }
     };
-
-    // Function to initiate payment request
-    const initiateInspectionPayment = async () => {
-        try {
-            const response = await fetch('http://localhost:5000/api/payments/payments/initiate', { // Corrected endpoint
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: userEmail,
-                    amount: 3000, // Amount in kobo
-                    propertyId: property.id,
-                    userId: userId,
-                    paymentType: 'inspection',
-                    userPhone: userPhone,
-                    agentId: agentId,
-                }),
+    // Initiate inspection payment
+    const initiateInspectionPayment = () => {
+        // Send request to backend to initiate payment and get a reference
+        fetch('http://localhost:5000/api/payments/payments/initiate', { // Corrected endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: userEmail, // Use actual user email
+                amount: inspectionPrice, // Amount in kobo
+                propertyId: property.id,
+                userId: userId,
+                paymentType: 'inspection',
+                agentId: agentId,
+            }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then(errData => {
+                        throw new Error(errData.message || 'Failed to initiate inspection payment.');
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.reference) {
+                    setinspectionReference(data.reference); // Set the reference for Paystack
+                    initializePayment(handleinspectionSuccess, handleinspectionClose);
+                } else {
+                    alert('Failed to initiate inspection payment.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error initiating inspection payment:', error);
+                alert(`An error occurred while initiating inspection payment: ${error.message}`);
             });
-
-            if (!response.ok) {
-                const errorText = await response.json();
-                console.error('Server Error:', errorText);
-                throw new Error(errorText.message || 'Failed to initiate payment.');
-            }
-
-            const data = await response.json();
-
-            if (data.reference) {
-                setPaymentReference(data.reference); // Set reference in state
-                initializePayment(handlePaymentSuccess, handlePaymentClose); // Trigger payment
-            } else {
-                alert('Failed to initiate payment.');
-            }
-        } catch (error) {
-            console.error('Error initiating inspection payment:', error);
-            alert(`An error occurred while initiating payment: ${error.message}`);
-        }
     };
+
 
     // Handle image click to expand
     const handleImageClick = (image) => {

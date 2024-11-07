@@ -1,24 +1,25 @@
-// frontend/src/components/PrivateRoute.js
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { getUserData } from './getUserData';
+
 function PrivateRoute({ roles }) {
-    // Retrieve auth data from localStorage
     const userData = getUserData();
-    const userRole = userData.role || '';
-    const token = userData ? userData.token : null;
-    const userPhone = userData ? userData.phone : null;
-    // Check if token exists
+    const userRole = userData?.role;
+    const token = userData?.token;
+
+    console.log('Token:', token);  // Log token
+    console.log('User Role:', userRole);  // Log user role
+    // Redirect to the homepage if there is no token (not logged in)
     if (!token) {
         return <Navigate to="/" />;
     }
 
-    // If roles are specified, check if user role is authorized
+    // Redirect if the user's role does not match allowed roles
     if (roles && !roles.includes(userRole)) {
-        return <Navigate to="/user-dashboard" />;
+        return <Navigate to="/" />;
     }
 
-    // If authenticated and authorized, render child routes
+    // Authorized users proceed to child routes
     return <Outlet />;
 }
 

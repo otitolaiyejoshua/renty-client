@@ -19,7 +19,7 @@ function Navbar() {
                     </Link>
                 </li>
                 <li className="nav-list">
-                    <Link className="alinks" to="/messages">
+                    <Link className="alinks" to="/chats">
                         <FontAwesomeIcon icon={faEnvelope} className="icons" /> Messages
                     </Link>
                 </li>

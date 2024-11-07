@@ -1,27 +1,22 @@
-// src/components/PopupForm.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
-import './Intro.css'; // Ensure this CSS file contains styles for the modal and form
+import './Intro.css';
 
-Modal.setAppElement('#root'); // This should ideally be set once in a higher-level component
+Modal.setAppElement('#root');
 
 const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
-  // Existing state variables
   const [currentIsLogin, setCurrentIsLogin] = useState(initialIsLogin);
   const [userType, setUserType] = useState('user');
-  const [pnumber, setPnumber] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
-
-  // New state variables for OTP verification
-  const [isOTPVerification, setIsOTPVerification] = useState(false);
-  const [otpCode, setOtpCode] = useState('');
+  const [isEmailVerification, setIsEmailVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [timer, setTimer] = useState(60); // 60 seconds for resend OTP
+  const [timer, setTimer] = useState(60);
 
   const navigate = useNavigate();
 
@@ -31,46 +26,31 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
 
   useEffect(() => {
     let countdown;
-    if (timer > 0 && isOTPVerification) {
-      countdown = setInterval(() => setTimer(timer - 1), 1000);
+    if (timer > 0 && isEmailVerification) {
+      countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
     }
     return () => clearInterval(countdown);
-  }, [timer, isOTPVerification]);
+  }, [timer, isEmailVerification]);
 
-  // Toggle between Login and Sign-Up forms
   const toggleForm = () => {
-    // Prevent toggling to login if in OTP verification step
-    if (!isOTPVerification) {
+    if (!isEmailVerification) {
       setCurrentIsLogin(!currentIsLogin);
-      resetForm(); // Reset form fields when toggling
+      resetForm();
     }
   };
 
-  // Handle user type change between 'user' and 'agent'
-  const handleUserTypeChange = (type) => {
-    setUserType(type);
-  };
-
-  // Reset form fields
   const resetForm = () => {
-    setPnumber('');
+    setEmail('');
     setPassword('');
     setConfirmPassword('');
     setUsername('');
-    setIsOTPVerification(false);
-    setOtpCode('');
+    setIsEmailVerification(false);
+    setVerificationCode('');
     setTimer(60);
   };
 
-  // Handle form submission for Login and Sign-Up
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Frontend validation
-    if (!/^\+234\d{10}$/.test(pnumber)) {
-      alert('Please enter a valid Nigerian phone number.');
-      return;
-    }
 
     if (!currentIsLogin && password !== confirmPassword) {
       alert('Passwords do not match');
@@ -79,40 +59,32 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
 
     setIsLoading(true);
 
-    // Define the API endpoint based on the current mode
     const url = `http://localhost:5000/api/auth/${currentIsLogin ? 'login' : 'register'}`;
-
-    // Define the payload based on the current mode
     const payload = currentIsLogin
-      ? { pnumber, password, role: userType }
-      : { username, pnumber, password, role: userType };
+      ? { email, password, role: userType }
+      : { username, email, password, role: userType };
 
     try {
       const response = await axios.post(url, payload);
       console.log('Response:', response.data);
 
       if (currentIsLogin) {
-        // Handle Login success
         const userData = {
           token: response.data.token,
-          phone: response.data.userpnumber,
-          role: response.data.role,
-          name: response.data.username,
+          email: response.data.email,
+          role: response.data.userRole,
           userId: response.data.userId,
           agentId: response.data.agentId,
+          userName: response.data.name,
         };
-        console.log(userData);
         localStorage.setItem('userData', JSON.stringify(userData));
         alert('Login successful');
         onClose();
-        navigate(response.data.role === 'agent' ? '/agent-dashboard' : '/user-dashboard');
+        navigate(response.data.userRole === 'agent' ? '/agent-dashboard' : '/user-dashboard');
       } else {
-        // Handle Sign-Up success
-        alert('Signup successful. Please verify your phone number.');
-
-        // Transition to OTP verification step
-        setIsOTPVerification(true);
-        setTimer(60); // Reset timer for resend OTP
+        alert('Signup successful. Please verify your email.');
+        setIsEmailVerification(true);
+        setTimer(60);
       }
     } catch (error) {
       console.error(`${currentIsLogin ? 'Login' : 'Signup'} failed`, error.response?.data || error.message);
@@ -122,87 +94,82 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
     }
   };
 
-  // Handle OTP verification submission
-  const handleVerifyOTP = async (e) => {
+  const handleVerifyEmail = async (e) => {
     e.preventDefault();
 
-    if (otpCode.trim() === '') {
-      alert('Please enter the OTP code');
+    if (verificationCode.trim() === '') {
+      alert('Please enter the verification code');
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
-        pnumber,
-        otp: otpCode,
+      const response = await axios.post('http://localhost:5000/api/auth/verify-email', {
+        email,
+        verificationCode,
       });
 
-      console.log('OTP Verification Response:', response.data);
+      console.log('Email Verification Response:', response.data);
 
       if (response.data.success) {
-        alert('Phone number verified successfully. You can now log in.');
-        setIsOTPVerification(false);
+        alert('Email verified successfully. You can now log in.');
+        setIsEmailVerification(false);
         resetForm();
-        // Optionally, navigate to login automatically
-        // navigate('/login');
       } else {
-        alert('OTP verification failed. Please try again.');
+        alert('Email verification failed. Please try again.');
       }
     } catch (error) {
-      console.error('OTP Verification failed', error.response?.data || error.message);
-      alert(`OTP Verification failed: ${error.response?.data?.message || error.message}`);
+      console.error('Email Verification failed', error.response?.data || error.message);
+      alert(`Email Verification failed: ${error.response?.data?.message || error.message}`);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Render the OTP verification form
-  const renderOTPForm = () => (
-    <form className="form" onSubmit={handleVerifyOTP}>
+  const resendVerificationCode = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/resend-verification', { email });
+      console.log('Resend Verification Code Response:', response.data);
+
+      if (response.data.success) {
+        alert('Verification code has been resent to your email.');
+        setTimer(60);
+      } else {
+        alert('Failed to resend verification code. Please try again.');
+      }
+    } catch (error) {
+      console.error('Resend Verification Code failed', error.response?.data || error.message);
+      alert(`Resend Verification Code failed: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const renderEmailVerificationForm = () => (
+    <form className="form" onSubmit={handleVerifyEmail}>
       <div className="form-group">
         <input
           type="text"
-          placeholder="Enter OTP Code"
-          value={otpCode}
-          onChange={(e) => setOtpCode(e.target.value)}
+          placeholder="Enter Verification Code"
+          value={verificationCode}
+          onChange={(e) => setVerificationCode(e.target.value)}
           required
         />
       </div>
       <div className="button-container">
         <button className="submit-button" type="submit" disabled={isLoading}>
-          {isLoading ? 'Verifying...' : 'Verify OTP'}
+          {isLoading ? 'Verifying...' : 'Verify Email'}
         </button>
       </div>
       <div className="resend-container">
-        <span className={`resend-link ${timer > 0 ? 'disabled' : ''}`} onClick={timer === 0 ? resendOTP : null}>
-          {timer > 0 ? `Resend OTP in ${timer}s` : 'Resend OTP'}
+        <span className={`resend-link ${timer > 0 ? 'disabled' : ''}`} onClick={timer === 0 ? resendVerificationCode : null}>
+          {timer > 0 ? `Resend Code in ${timer}s` : 'Resend Code'}
         </span>
       </div>
     </form>
   );
-
-  // Function to resend OTP
-  const resendOTP = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.post('http://localhost:5000/api/auth/resend-otp', { pnumber });
-      console.log('Resend OTP Response:', response.data);
-
-      if (response.data.success) {
-        alert('OTP has been resent to your phone number.');
-        setTimer(60); // Reset timer
-      } else {
-        alert('Failed to resend OTP. Please try again.');
-      }
-    } catch (error) {
-      console.error('Resend OTP failed', error.response?.data || error.message);
-      alert(`Resend OTP failed: ${error.response?.data?.message || error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Modal
@@ -226,23 +193,23 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
           &times;
         </button>
         <h2 className="form-title">
-          {currentIsLogin ? 'Login' : isOTPVerification ? 'Verify Phone Number' : 'Sign Up'}
+          {currentIsLogin ? 'Login' : isEmailVerification ? 'Verify Email' : 'Sign Up'}
         </h2>
 
-        {!isOTPVerification && (
+        {!isEmailVerification && (
           <>
             <div className="user-type-container">
               <button
                 className={`user-type-button ${userType === 'user' ? 'active' : ''}`}
-                onClick={() => handleUserTypeChange('user')}
-                disabled={isOTPVerification || isLoading}
+                onClick={() => setUserType('user')}
+                disabled={isLoading}
               >
                 User
               </button>
               <button
                 className={`user-type-button ${userType === 'agent' ? 'active' : ''}`}
-                onClick={() => handleUserTypeChange('agent')}
-                disabled={isOTPVerification || isLoading}
+                onClick={() => setUserType('agent')}
+                disabled={isLoading}
               >
                 Agent
               </button>
@@ -263,10 +230,10 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
               )}
               <div className="form-group">
                 <input
-                  type="tel"
-                  placeholder="+234 800 000 0000"
-                  value={pnumber}
-                  onChange={(e) => setPnumber(e.target.value)}
+                  type="email"
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={isLoading}
                 />
@@ -298,14 +265,9 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
                   {isLoading ? (currentIsLogin ? 'Logging in...' : 'Signing up...') : currentIsLogin ? 'Login' : 'Sign Up'}
                 </button>
               </div>
-              {currentIsLogin && (
-                <div className="forgot-password-container">
-                  <span className="forgot-password-link">Forgot Password?</span>
-                </div>
-              )}
               <div className="toggle-container">
                 <span
-                  className={`toggle-button ${isOTPVerification ? 'disabled' : ''}`}
+                  className="toggle-button"
                   onClick={toggleForm}
                 >
                   {currentIsLogin ? "Don't have an account? Sign Up" : 'Already have an account? Login'}
@@ -315,17 +277,10 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
           </>
         )}
 
-        {/* OTP Verification Form */}
-        {isOTPVerification && (
+        {isEmailVerification && (
           <>
-            <p>Please enter the OTP sent to your phone number to verify your account.</p>
-            {renderOTPForm()}
-            {/* Disable toggling while in OTP verification */}
-            <div className="toggle-container">
-              <span className="toggle-button disabled">
-                {currentIsLogin ? "Don't have an account? Sign Up" : 'Already have an account? Login'}
-              </span>
-            </div>
+            <p>Please enter the verification code sent to your email.</p>
+            {renderEmailVerificationForm()}
           </>
         )}
       </div>

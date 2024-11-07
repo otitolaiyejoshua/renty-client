@@ -70,12 +70,6 @@
   align-items: center;
   flex-direction:column;
 }
-.buttonactions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction:row
-;}
 
 .user-propertycard-price {
   font-size: 1rem;
@@ -98,6 +92,32 @@
   color: rgb(63, 81, 181);
   border: 1px solid rgb(63, 81, 181);
 }
+/* Ensure buttons stay side-by-side on smaller screens */
+.buttonactions {
+  display: flex;
+  flex-direction: row; /* Forces buttons to stay in a row */
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px; /* Adjust spacing between buttons as needed */
+  width: 100%;
+}
+
+/* Additional media query to control button layout on very narrow screens */
+@media screen and (max-width: 400px) {
+  .user-propertycard-container {
+    height: auto; /* Allows height to adjust dynamically for smaller screens */
+  }
+
+  .user-propertycard-button {
+    padding: 0.4rem 0.8rem; /* Adjusts button size for smaller screens */
+  }
+
+  /* Reduce the button width to keep them side-by-side on extra small screens */
+  .buttonactions .user-propertycard-button {
+    flex: 1; /* Make both buttons take equal width */
+  }
+}
+
 @media screen and (min-width:320px) and (max-width:1023px){
   .inspect-modal{
     display:flex;
@@ -162,6 +182,7 @@
     transition: background-color 0.3s ease;
     margin-bottom:2.5px;
   }
+  
 }
 @media screen and (min-width:1024px){
   .inspect-modal{

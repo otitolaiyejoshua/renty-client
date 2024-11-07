@@ -1,48 +1,53 @@
+/* Default styles */
 .app-container {
-    width:100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .agent-header {
-    background-color:white; /* Example color */
-    width:100%;
-    height:15%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display:flex;
-    flex-direction:row;
+    background-color: white;
+    width: 100%;
+    height: 15%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-.AgentDashboard{
-    color:rgb(63,81,181);
+
+.AgentDashboard {
+    color: rgb(63, 81, 181);
 }
+
 .main-container {
     display: flex;
-    width:100%;
-    height:85%;
-    flex-direction: 1;
+    width: 100%;
+    height: 85%;
+    flex-direction: row; /* Initially in row for larger screens */
     overflow: hidden;
 }
+
 .nav-list {
     color: black;
     font-size: 70%;
     display: flex;
     align-items: self-start;
-    margin: 10px 0; /* Add margin to space out nav items */
+    margin: 10px 0;
 }
-.nav-list:hover{
-    width:100%;
-    color:rgb(63,81,181);
-    border-radius:8px;
+
+.nav-list:hover {
+    width: 100%;
+    color: rgb(63, 81, 181);
+    border-radius: 8px;
     background-color: rgb(193, 209, 216);
 }
 
 .icons {
     font-size: 100%;
-    margin-right: 10px; /* Add space between icon and text */
+    margin-right: 10px;
 }
 
 .agent-navbar {
@@ -51,29 +56,28 @@
     color: black;
     display: flex;
     flex-direction: column;
-    padding:20px;
+    padding: 20px;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
     align-items: center;
-    height: 75vh; /* Make navbar full height */ /* Fix the navbar position */
+    height: 75vh;
 }
 
 .nav-container {
-    width: 100%; /* Make container full width */
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: self-start;
-    justify-content: flex-start; /* Adjust alignment as needed */
+    justify-content: flex-start;
     height: 100%;
- /* Add padding to space from the top */
 }
 
 .content {
-    width:100%;/* Add margin to prevent content overlap */
-    height:100%;
-    overflow:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .alinks {
@@ -84,34 +88,175 @@
     align-items: self-start;
     justify-content: center;
     width: 100%;
-    margin-right:50px;
-    font-weight:bolder;
+    margin-right: 50px;
+    font-weight: bolder;
 }
-.alinks:hover{
-    color:rgb(63,81,181);
+
+.alinks:hover {
+    color: rgb(63, 81, 181);
 }
-.spaced{
-    margin-right:15px;
-    margin-top:15px;
+
+.spaced {
+    margin-right: 15px;
+    margin-top: 15px;
 }
-.logo{
-    width:65px;
-    height:65px;
-    margin-left:30px;
+
+.logo {
+    width: 65px;
+    height: 65px;
+    margin-left: 30px;
 }
-.person{
-    width:50px;
-    height:50px;
-    border-radius:100px;
+
+.person {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
 }
+
+/* Mobile and Tablet responsiveness */
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column; /* Stack content vertically on tablet and smaller */
+    }
+
+    .agent-navbar {
+        width: 100%; /* Full width on tablets */
+        height: auto; /* Allow flexibility in height */
+        padding: 10px;
+    }
+
+    .content {
+        padding-top: 20px; /* Provide spacing from the navbar */
+    }
+
+    .nav-list {
+        font-size: 1rem; /* Increase font size for readability on tablets */
+    }
+
+    .agent-header {
+        height: 20%; /* Adjust header size */
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .person {
+        width: 45px;
+        height: 45px;
+    }
+
+    .nav-container {
+        padding: 0 15px; /* Add padding for better spacing */
+    }
+
+    .nav-list {
+        font-size: 1rem; /* Slightly increase font size */
+    }
+
+    .main-container {
+        height: auto; /* Allow the content to adjust */
+        padding-top: 20px;
+    }
+}
+
 @media (max-width: 768px) {
-    .navbar {
-        width: 100%; /* Full width on smaller screens */
+    .app-container {
+        flex-direction: column;
+    }
+
+    .agent-header {
+        height: 12%; /* Adjust header size */
+    }
+
+    .main-container {
+        flex-direction: column; /* Stack elements vertically */
+        height: auto; /* Allow flexibility in height */
+    }
+
+    .agent-navbar {
+        width: 100%;
         height: auto;
-        position: relative;
+        padding: 15px;
+        align-items: flex-start; /* Align navbar content to the start */
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+        margin-left: 15px;
+    }
+
+    .person {
+        width: 45px;
+        height: 45px;
+    }
+
+    .nav-container {
+        padding: 0 10px;
+    }
+
+    .nav-list {
+        font-size: 0.9rem; /* Adjust font size for mobile */
+    }
+
+    .content {
+        padding-top: 10px;
+    }
+
+    .main-container {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .alinks {
+        margin-right: 20px;
+    }
+
+    .agent-navbar {
+        padding: 10px 15px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+    .agent-header {
+        height: 10%;
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+        margin-left: 10px;
+    }
+
+    .person {
+        width: 40px;
+        height: 40px;
     }
 
     .main-container {
         flex-direction: column;
+        padding: 10px;
+    }
+
+    .agent-navbar {
+        width: 100%;
+        height: auto;
+        padding: 10px 15px;
+        align-items: center;
+    }
+
+    .nav-list {
+        font-size: 0.8rem;
+    }
+
+    .nav-container {
+        padding: 0 5px;
+    }
+
+    .content {
+        padding-top: 15px;
     }
 }
