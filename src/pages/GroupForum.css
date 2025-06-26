@@ -103,6 +103,7 @@
     border-radius: 20px;
     border: 1px solid #ddd;
     outline: none;
+    font-size: 14px;
 }
 
 .send-button {
@@ -114,6 +115,7 @@
     margin-left: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 14px;
 }
 
 .send-button:hover {
@@ -121,7 +123,42 @@
 }
 
 @media (max-width: 768px) {
-    .message-content {
-        max-width: 100%;
+    /* Adjust chat input and send button for mobile devices */
+    .chat-input-form {
+        padding: 8px;
+    }
+
+    .chat-input {
+        flex: 1;
+        padding: 12px 15px; /* Make the chat input larger */
+        border-radius: 20px;
+        font-size: 16px; /* Increase font size for mobile */
+    }
+
+    .send-button {
+        padding: 8px 12px; /* Reduce padding to make button smaller */
+        font-size: 16px; /* Match font size of input */
+        margin-left: 8px;
+    }
+
+    .send-button:hover {
+        background-color: #0056b3;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens */
+    .chat-input-form {
+        padding: 8px;
+    }
+
+    .chat-input {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .send-button {
+        font-size: 14px;
+        padding: 6px 10px;
     }
 }

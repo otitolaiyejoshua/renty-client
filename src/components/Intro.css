@@ -29,12 +29,11 @@
   }
 
   .logo {
-      height: 70px;
+      height: 100px;
       margin-left: 20px;
       margin-top: 10px;
-      width: 70px
+      width: 100px
   }
-
   .nav-items {
       align-items: center;
       display: flex;
@@ -408,8 +407,9 @@
   }
 
   .forum-logo {
-      height: 120px;
-      width: 120px
+      height: 100px;
+      width:100px;
+      border-radius:50px;
   }
 
   .btn {
@@ -543,9 +543,10 @@
   }
 
   .logo {
-      height: 70px;
+      height: 85px;
       margin-left: 10px;
-      width: 70px
+      width: 85px;
+      border-radius: 50px;
   }
 
   .overlay {

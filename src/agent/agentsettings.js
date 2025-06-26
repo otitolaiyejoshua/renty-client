@@ -37,7 +37,7 @@ function AgentSettings() {
             }
     
             try {
-                const res = await axios.get(`http://localhost:5000/api/agentSettings/${agentId}`, {
+                const res = await axios.get(`https://uniconnect.africa/api/agentSettings/${agentId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -101,7 +101,7 @@ function AgentSettings() {
         formData.append('ownershipCertificate', profile.ownershipCertificate);
 
         try {
-            const res = await axios.put(`http://localhost:5000/api/agentSettings/profile`, formData, {
+            const res = await axios.put(`https://uniconnect.africa/api/agentSettings/profile`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -120,7 +120,7 @@ function AgentSettings() {
         setError('');
 
         try {
-            const res = await axios.put(`http://localhost:5000/api/agentSettings/password`, {
+            const res = await axios.put(`https://uniconnect.africa/api/agentSettings/password`, {
                 currentPassword: form.currentPassword,
                 newPassword: form.newPassword
             }, {

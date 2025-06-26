@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import { getUserData, setUserData } from '../getUserData';
 import './PrivateChat.css';
-
-const socket = io('http://localhost:5000');
 
 const PrivateChat = () => {
     const userData = getUserData();
@@ -16,36 +14,48 @@ const PrivateChat = () => {
     const [receiverName, setReceiverName] = useState('');
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [chats, setChats] = useState([]); // Initialize as an empty array
+    const [chats, setChats] = useState([]);
+    
+    // Use a ref to store the socket instance
+    const socketRef = useRef(null);
 
     useEffect(() => {
-        // Load chat history
-        fetch(`http://localhost:5000/api/chat/history/${userId}`)
+        // Initialize socket connection only once
+        socketRef.current = io('https://uniconnect.africa');
+
+        // Retrieve chats from local storage when the component mounts
+        const storedChats = JSON.parse(localStorage.getItem('recentChats')) || [];
+        setChats(storedChats);
+
+        // Load chat history for the user
+        fetch(`https://uniconnect.africa/api/chat/history/${userId}`)
             .then(res => res.json())
-            .then(data => setChats(Array.isArray(data) ? data : [])) // Ensure data is an array
-            .catch(error => {
-                console.error("Error fetching chat history:", error);
-                setChats([]); // Fallback to empty array on error
-            });
+            .then(data => {
+                const uniqueChats = Array.isArray(data) ? [...new Set([...storedChats, ...data])] : storedChats;
+                setChats(uniqueChats);
+                localStorage.setItem('recentChats', JSON.stringify(uniqueChats)); // Update local storage
+            })
+            .catch(error => console.error("Error fetching chat history:", error));
 
         // Socket event to receive new private messages
-        socket.on('receivePrivateMessage', (message) => {
+        socketRef.current.on('receivePrivateMessage', (message) => {
             setMessages(prev => [...prev, message]);
         });
 
-        return () => socket.off();
+        // Cleanup function
+        return () => {
+            socketRef.current.off();
+            socketRef.current.disconnect();
+        };
     }, [userId]);
 
     useEffect(() => {
         if (receiverId) {
             // Fetch messages for a selected chat
-            fetch(`http://localhost:5000/api/chat/private/${userId}/${receiverId}`)
+            fetch(`https://uniconnect.africa/api/chat/private/${userId}/${receiverId}`)
                 .then(res => res.json())
-                .then(data => setMessages(Array.isArray(data) ? data : [])) // Ensure data is an array
-                .catch(error => {
-                    console.error("Error fetching messages:", error);
-                    setMessages([]); // Fallback to empty array on error
-                });
+                .then(data => setMessages(Array.isArray(data) ? data : []))
+                .catch(error => console.error("Error fetching messages:", error));
         }
     }, [receiverId, userId]);
 
@@ -58,19 +68,21 @@ const PrivateChat = () => {
                 senderName: userName,
                 message: newMessage,
             };
-            // Emit the message to the server
-            socket.emit('sendPrivateMessage', messageData);
+            socketRef.current.emit('sendPrivateMessage', messageData);
 
-            // Save message in the database
-            fetch('http://localhost:5000/api/chat/private', {
+            fetch('https://uniconnect.africa/api/chat/private', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(messageData),
             });
 
-            // Add message to chat
             setMessages(prev => [...prev, messageData]);
             setNewMessage('');
+
+            // Save chat to recent chats and local storage
+            const updatedChats = [...chats.filter(chat => chat.receiverId !== receiverId), { receiverId, receiverName }];
+            setChats(updatedChats);
+            localStorage.setItem('recentChats', JSON.stringify(updatedChats));
         }
     };
 
@@ -78,16 +90,21 @@ const PrivateChat = () => {
         setReceiverId(user.id);
         setReceiverName(user.name);
         setUserData({ userId, name: userName, receiverId: user.id, receiverName: user.name });
+
+        // Add selected user to recent chats and update local storage
+        const updatedChats = [...chats.filter(chat => chat.receiverId !== user.id), { receiverId: user.id, receiverName: user.name }];
+        setChats(updatedChats);
+        localStorage.setItem('recentChats', JSON.stringify(updatedChats));
     };
 
     const handleSearch = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/chat/users/${searchTerm}`);
+            const response = await fetch(`https://uniconnect.africa/api/chat/users/${searchTerm}`);
             const data = await response.json();
-            setUsers(Array.isArray(data) ? data : []); // Ensure data is an array
+            setUsers(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Error fetching users:', error);
-            setUsers([]); // Fallback to empty array on error
+            setUsers([]);
         }
     };
 
@@ -144,7 +161,7 @@ const PrivateChat = () => {
                     <>
                         <h2>Chat with {receiverName}</h2>
                         <div className="messages">
-                            {Array.isArray(messages) && messages.map((msg, index) => (
+                            {messages.map((msg, index) => (
                                 <div
                                     key={index}
                                     className={`message ${msg.senderId === userId ? 'sent' : 'received'}`}

@@ -7,7 +7,7 @@ const Main = React.forwardRef((props,ref)=>{
     return(
         <div ref={ref} className="main">
             <div id="overlay">
-                <h1 className='animated-text'>Welcome to Uniconnect</h1>
+                <h1 className='animated-text'>Welcome to Renty</h1>
                 <p className='smallanimated-text'>Connecting Students with Affordable Housing Near Their Universities</p>
                 <div className="contact-learn">
                     <a href={mailtoLink} className='contact-btn'>Contact Us</a>

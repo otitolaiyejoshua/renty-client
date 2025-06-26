@@ -17,7 +17,7 @@ function Settings() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/userSettings/${userId}`, {
+                const res = await axios.get(`https://uniconnect.africa/api/userSettings/${userId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

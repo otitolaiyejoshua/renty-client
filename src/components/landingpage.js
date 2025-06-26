@@ -12,7 +12,7 @@ function LandingPage({ openLoginPopup, openSignupPopup, handleScroll }) {
   return (
     <>
       <div className="header">
-        <img className="logo" alt="logo" src="images/logos.jpg" />
+        <img className="logo" alt="logo" src="images/renty.png" />
         <span className="nav-opener" onClick={toggleNav}>
           {open ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faBars} />}
         </span>

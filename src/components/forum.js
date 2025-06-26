@@ -2,8 +2,8 @@ import React from 'react';
 const Forum = React.forwardRef((props, ref)=> {
   return (
     <section ref={ref} className="forum">
-        <img className="forum-logo" src="images/forum.png"/>
-      <h2>Join the Uniconnect Community Forum</h2>
+        <img className="forum-logo" src="images/renty.png"/>
+      <h2>Join the Renty Community Forum</h2>
       <p>Share experiences, ask questions, and connect with other students.</p>
       <button className="btn visit-forum-btn">Visit the Forum</button>
       <div className="recent-posts">

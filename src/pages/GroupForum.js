@@ -2,27 +2,30 @@ import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import './GroupForum.css'; // Add your CSS styles here
 import { getUserData } from '../getUserData';
-const socket = io('http://localhost:5000');
+
+const socket = io('https://uniconnect.africa'); // Update with the production API URL
 
 const GroupForum = () => {
     const userData = getUserData();
     const userId = userData ? userData.userId : null;
-    const userName = userData ? userData.userName : null; // Ensure 'name' exists
+    const userName = userData ? userData.userName : null;
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const chatBoxRef = useRef(null); // Reference to the chat container for auto-scrolling
+    const chatBoxRef = useRef(null);
 
     useEffect(() => {
-        // Fetch previous group messages
-        fetch('http://localhost:5000/api/chat/group')
+        // Fetch previous group messages from the backend
+        fetch('https://uniconnect.africa/api/chat/group')
             .then(res => res.json())
             .then(data => setMessages(data));
 
+        // Listen for new messages from the server (real-time)
         socket.on('receiveGroupMessage', (message) => {
-            setMessages((prev) => [...prev, message]); // Add new message to the chat
+            setMessages((prev) => [...prev, message]);
         });
 
-        return () => socket.off(); // Cleanup
+        // Cleanup when the component unmounts
+        return () => socket.off('receiveGroupMessage'); // Make sure to clean up the listener
     }, []);
 
     useEffect(() => {
@@ -41,8 +44,9 @@ const GroupForum = () => {
                 message: newMessage,
                 timestamp: new Date().toLocaleTimeString(),
             };
-            socket.emit('sendGroupMessage', messageData); // Emit the message
-            setNewMessage(''); // Clear input
+            // Emit the new message to the server
+            socket.emit('sendGroupMessage', messageData);
+            setNewMessage(''); // Clear input after sending
         }
     };
 
@@ -56,7 +60,7 @@ const GroupForum = () => {
                     <div key={index} className={`message-container ${msg.userId === userId ? 'own-message' : 'other-message'}`}>
                         <div className="message-avatar">
                             <img
-                                src={`https://ui-avatars.com/api/?name=${msg.userName}&background=007bff&color=fff`} // Avatar placeholder
+                                src={`https://ui-avatars.com/api/?name=${msg.userName}&background=007bff&color=fff`}
                                 alt="avatar"
                             />
                         </div>
@@ -86,4 +90,4 @@ const GroupForum = () => {
     );
 };
 
-export default GroupForum; 
+export default GroupForum;

@@ -35,7 +35,7 @@ const Properties = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/properties/${agentId}`, {
+        const response = await axios.get(`https://uniconnect.africa/api/properties/${agentId}`, {
           headers: {
             'x-access-token': token,
           },
@@ -102,14 +102,14 @@ const Properties = () => {
 
     try {
       if (editMode) {
-        await axios.put(`http://localhost:5000/api/properties/${selectedProperty.id}`, formData, {
+        await axios.put(`https://uniconnect.africa/api/properties/${selectedProperty.id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'x-access-token': token,
           },
         });
       } else {
-        await axios.post('http://localhost:5000/api/properties', formData, {
+        await axios.post('https://uniconnect.africa/api/properties', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'x-access-token': token,
@@ -118,7 +118,7 @@ const Properties = () => {
       }
       setShowModal(false);
       resetForm();
-      const response = await axios.get(`http://localhost:5000/api/properties/${agentId}`, {
+      const response = await axios.get(`https://uniconnect.africa/api/properties/${agentId}`, {
         headers: {
           'x-access-token': token,
         },
@@ -148,12 +148,12 @@ const Properties = () => {
   const handleDeleteClick = async (propertyId) => {
     if (window.confirm('Are you sure you want to delete this property?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/properties/delete/${propertyId}`, {
+        await axios.delete(`https://uniconnect.africa/api/properties/delete/${propertyId}`, {
           headers: {
             'x-access-token': token,
           },
         });
-        const response = await axios.get(`http://localhost:5000/api/properties/${agentId}`, {
+        const response = await axios.get(`https://uniconnect.africa/api/properties/${agentId}`, {
           headers: {
             'x-access-token': token,
           },
@@ -204,7 +204,7 @@ const Properties = () => {
         <div className="properties-grid">
           {properties.map((property) => (
             <div className="property-card" key={property._id}>
-              <img src={`http://localhost:5000/uploads/${property.mainImage}`} alt={property.title} />
+              <img src={`https://uniconnect.africa/uploads/${property.mainImage}`} alt={property.title} />
               <h3>{property.title}</h3>
               <p>{property.address}</p>
               <p>₦{property.price}</p>
