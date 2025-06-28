@@ -1,43 +1,69 @@
 import React from 'react';
+
 const AboutUs = React.forwardRef((props, ref) => {
   return (
-    <section ref={ref} className="about-us">
-      <h2>About Us</h2>
-      <p><strong>Who We Are</strong></p>
-      <p>
-        <strong>Renty</strong> is a pioneering rental services platform dedicated to bridging the gap between students and affordable housing across all federal universities in the country. Our mission is to provide students with secure, accessible, and budget-friendly rental options, ensuring they can focus on their studies and university life without the stress of housing issues.
-      </p>
-      <p><strong>Our Vision</strong></p>
-      <p>
-        To be the leading rental services platform that redefines student housing, creating a community where every student can find a safe, affordable, and convenient place to live near their university.
-      </p>
-      <p><strong>Our Mission</strong></p>
-      <ul>
-        <li><strong>Accessibility:</strong> Ensure that every student has access to quality housing options near their university.</li>
-        <li><strong>Affordability:</strong> Provide rental options that fit the budgets of students and their families.</li>
-        <li><strong>Security:</strong> Offer secure and vetted listings to give students and parents peace of mind.</li>
-        <li><strong>Convenience:</strong> Simplify the process of finding, connecting with, and securing housing through a user-friendly platform.</li>
-      </ul>
-      <p><strong>What We Do</strong></p>
-      <p>
-        At Renty, we understand the unique challenges that students face when looking for housing. Our platform offers:
-      </p>
-      <ul>
-        <li><strong>Comprehensive Listings:</strong> A wide range of rental properties from verified landlords, including apartments, shared houses, and dormitory-style accommodations.</li>
-        <li><strong>Advanced Search:</strong> Filter properties based on location, price, amenities, and more to find the perfect fit.</li>
-        <li><strong>Secure Connections:</strong> Directly connect with landlords through our platform, ensuring a safe and transparent communication process.</li>
-        <li><strong>Community Support:</strong> Access to a vibrant community forum where students can share experiences, ask questions, and support each other.</li>
-      </ul>
-      <p><strong>Our Values</strong></p>
-      <ul>
-        <li><strong>Integrity:</strong> We maintain the highest standards of honesty and transparency in all our dealings.</li>
-        <li><strong>Innovation:</strong> Continuously improve our platform to meet the evolving needs of students.</li>
-        <li><strong>Excellence:</strong> Strive for excellence in every aspect of our service, from customer support to platform functionality.</li>
-      </ul>
-      <p><strong>Our Story</strong></p>
-      <p>
-        Founded by a group of university graduates who faced housing challenges during their studies, Renty was created to provide a better solution for future generations. We began with a vision to make student housing stress-free and have since grown to serve students in all federal universities across the country.
-      </p>
+    <section ref={ref} className="about-us" style={{
+      backgroundColor: '#f5f9fc',
+      padding: '80px 20px',
+      color: '#444',
+      fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
+    }}>
+      <h2 style={{ color: '#2e7dc0', fontSize: '2.8rem', textAlign: 'center', marginBottom: '40px' }}>
+        About Us
+      </h2>
+
+      <div style={{ maxWidth: '1000px', margin: '0 auto', lineHeight: '1.8' }}>
+        <section style={{ marginBottom: '40px' }}>
+          <h3 style={{ color: '#2e7dc0' }}>Who We Are</h3>
+          <p>
+            <strong>Renty</strong> is a trailblazing rental solutions platform purpose-built to connect university students with affordable, verified housing across federal institutions nationwide.
+            We’re on a mission to eliminate the stress of student accommodation by making housing safe, accessible, and tailored to student needs.
+          </p>
+        </section>
+
+        <section style={{ marginBottom: '40px' }}>
+          <h3 style={{ color: '#2e7dc0' }}>Our Vision</h3>
+          <p>
+            To revolutionize the student housing experience in Nigeria by creating a trusted ecosystem where every student can find quality, affordable housing near their campus—quickly, securely, and confidently.
+          </p>
+        </section>
+
+        <section style={{ marginBottom: '40px' }}>
+          <h3 style={{ color: '#2e7dc0' }}>Our Mission</h3>
+          <ul style={{ paddingLeft: '20px' }}>
+            <li><strong>Accessibility:</strong> Bridge the gap between students and housing providers by curating listings in every university environment.</li>
+            <li><strong>Affordability:</strong> Provide competitively priced options that reflect the realities of student budgets.</li>
+            <li><strong>Security:</strong> Vet listings and landlords to ensure peace of mind for students and their families.</li>
+            <li><strong>Convenience:</strong> Streamline the housing search process with intuitive tools, filters, and direct messaging features.</li>
+          </ul>
+        </section>
+
+        <section style={{ marginBottom: '40px' }}>
+          <h3 style={{ color: '#2e7dc0' }}>What We Offer</h3>
+          <ul style={{ paddingLeft: '20px' }}>
+            <li><strong>Verified Listings:</strong> Access a wide range of student-appropriate rentals, from apartments to shared and dorm-style accommodations.</li>
+            <li><strong>Smart Search:</strong> Filter by price, proximity, amenities, and property type to find your perfect match with ease.</li>
+            <li><strong>Secure Interactions:</strong> Communicate directly with property owners through a secure platform, ensuring transparency and authenticity.</li>
+            <li><strong>Student Community:</strong> Join a thriving network of student users where experiences are shared, questions are answered, and guidance is exchanged.</li>
+          </ul>
+        </section>
+
+        <section style={{ marginBottom: '40px' }}>
+          <h3 style={{ color: '#2e7dc0' }}>Our Core Values</h3>
+          <ul style={{ paddingLeft: '20px' }}>
+            <li><strong>Integrity:</strong> We prioritize honesty, transparency, and trust in all our operations.</li>
+            <li><strong>Innovation:</strong> We continuously evolve our platform to stay aligned with the modern student lifestyle.</li>
+            <li><strong>Excellence:</strong> We hold ourselves to the highest standards—whether in platform performance, customer care, or user experience.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 style={{ color: '#2e7dc0' }}>Our Story</h3>
+          <p>
+            Renty was born out of personal experience. Our founders—former students who struggled to secure suitable accommodation—recognized a systemic challenge and committed to solving it. What began as a vision has grown into a nationwide platform serving thousands of students across federal universities. Today, Renty stands as a symbol of convenience, safety, and empowerment in the student housing space.
+          </p>
+        </section>
+      </div>
     </section>
   );
 });
