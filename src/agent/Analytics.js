@@ -15,7 +15,7 @@ const Analytics = () => {
                 const userData = getUserData();
                 const agentId = userData ? userData.userId : null;
                 const token = userData ? userData.token : null;
-                const response = await axios.get(`https://uniconnect.africa/api/analytics/${agentId}`, {
+                const response = await axios.get(`https://renty-server.onrender.com/api/analytics/${agentId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

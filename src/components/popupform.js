@@ -59,7 +59,7 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
 
     setIsLoading(true);
 
-    const url = `https://uniconnect.africa/api/auth/${currentIsLogin ? 'login' : 'register'}`;
+    const url = `https://renty-server.onrender.com/api/auth/${currentIsLogin ? 'login' : 'register'}`;
     const payload = currentIsLogin
       ? { email, password, role: userType }
       : { username, email, password, role: userType };
@@ -105,7 +105,7 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('https://uniconnect.africa/api/auth/verify-email', {
+      const response = await axios.post('https://renty-server.onrender.com/api/auth/verify-email', {
         email,
         verificationCode,
       });
@@ -130,7 +130,7 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
   const resendVerificationCode = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post('https://uniconnect.africa/api/auth/resend-verification', { email });
+      const response = await axios.post('https://renty-server.onrender.com/api/auth/resend-verification', { email });
       console.log('Resend Verification Code Response:', response.data);
 
       if (response.data.success) {

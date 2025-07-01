@@ -28,7 +28,7 @@ const SearchResults = () => {
       }
 
       try {
-        const response = await axios.get('http://localhost:5000/api/properties/search/'+searchTerm, {
+        const response = await axios.get('https://renty-server.onrender.com/api/properties/search/'+searchTerm, {
         });
         console.log('Search Results:', response.data); // Debugging log
         setProperties(response.data);

@@ -42,7 +42,7 @@ const PropertyCard = ({ property, onInspect }) => {
     // Function to verify payment on backend
     const verifyPayment = async (reference) => {
         try {
-            const response = await fetch('https://uniconnect.africa/api/payments/payments/verify', {
+            const response = await fetch('https://renty-server.onrender.com/api/payments/payments/verify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const PropertyCard = ({ property, onInspect }) => {
     };
 
     const initiateBookingPayment = () => {
-        fetch('https://uniconnect.africa/api/payments/payments/initiate', {
+        fetch('https://renty-server.onrender.com/api/payments/payments/initiate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ const PropertyCard = ({ property, onInspect }) => {
         <>
             <div className="user-propertycard-container">
                 <div className="user-propertycard-image-container">
-                    <img src={`https://uniconnect.africa/uploads/${property.mainImage}`} alt={property.title} />
+                    <img src={`https://renty-server.onrender.com/uploads/${property.mainImage}`} alt={property.title} />
                 </div>
                 <div className="user-propertycard-details-container">
                     <h3 className="user-propertycard-title">{property.title}</h3>

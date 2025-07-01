@@ -51,7 +51,7 @@ const InspectModal = ({ property, onClose }) => {
     // Function to verify payment on backend
     const verifyPayment = async (reference) => {
         try {
-            const response = await fetch('https://uniconnect.africa/api/payments/payments/verify', { // Corrected endpoint
+            const response = await fetch('https://renty-server.onrender.com/api/payments/payments/verify', { // Corrected endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const InspectModal = ({ property, onClose }) => {
     // Initiate inspection payment
     const initiateInspectionPayment = () => {
         // Send request to backend to initiate payment and get a reference
-        fetch('https://uniconnect.africa/api/payments/payments/initiate', { // Corrected endpoint
+        fetch('https://renty-server.onrender.com/api/payments/payments/initiate', { // Corrected endpoint
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -150,9 +150,9 @@ const InspectModal = ({ property, onClose }) => {
                         {interiorImages.map((image, index) => (
                             <img
                                 key={index}
-                                src={`https://uniconnect.africa/uploads/${image}`}
+                                src={`https://renty-server.onrender.com/uploads/${image}`}
                                 alt={`Interior ${index + 1}`}
-                                onClick={() => handleImageClick(`https://uniconnect.africa/uploads/${image}`)}
+                                onClick={() => handleImageClick(`https://renty-server.onrender.com/uploads/${image}`)}
                             />
                         ))}
                     </div>

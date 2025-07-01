@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import './GroupForum.css'; // Add your CSS styles here
 import { getUserData } from '../getUserData';
 
-const socket = io('https://uniconnect.africa'); // Update with the production API URL
+const socket = io('https://renty-server.onrender.com'); // Update with the production API URL
 
 const GroupForum = () => {
     const userData = getUserData();
@@ -15,7 +15,7 @@ const GroupForum = () => {
 
     useEffect(() => {
         // Fetch previous group messages from the backend
-        fetch('https://uniconnect.africa/api/chat/group')
+        fetch('https://renty-server.onrender.com/api/chat/group')
             .then(res => res.json())
             .then(data => setMessages(data));
 

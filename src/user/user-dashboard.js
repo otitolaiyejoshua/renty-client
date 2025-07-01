@@ -13,7 +13,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('https://uniconnect.africa/api/properties');
+        const response = await axios.get('https://renty-server.onrender.com/api/properties');
         console.log("Fetched properties:", response.data); // Debugging line
         setProperties(response.data);
       } catch (error) {

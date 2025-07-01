@@ -21,14 +21,14 @@ const PrivateChat = () => {
 
     useEffect(() => {
         // Initialize socket connection only once
-        socketRef.current = io('https://uniconnect.africa');
+        socketRef.current = io('https://renty-server.onrender.com');
 
         // Retrieve chats from local storage when the component mounts
         const storedChats = JSON.parse(localStorage.getItem('recentChats')) || [];
         setChats(storedChats);
 
         // Load chat history for the user
-        fetch(`https://uniconnect.africa/api/chat/history/${userId}`)
+        fetch(`https://renty-server.onrender.com/api/chat/history/${userId}`)
             .then(res => res.json())
             .then(data => {
                 const uniqueChats = Array.isArray(data) ? [...new Set([...storedChats, ...data])] : storedChats;
@@ -52,7 +52,7 @@ const PrivateChat = () => {
     useEffect(() => {
         if (receiverId) {
             // Fetch messages for a selected chat
-            fetch(`https://uniconnect.africa/api/chat/private/${userId}/${receiverId}`)
+            fetch(`https://renty-server.onrender.com/api/chat/private/${userId}/${receiverId}`)
                 .then(res => res.json())
                 .then(data => setMessages(Array.isArray(data) ? data : []))
                 .catch(error => console.error("Error fetching messages:", error));
@@ -70,7 +70,7 @@ const PrivateChat = () => {
             };
             socketRef.current.emit('sendPrivateMessage', messageData);
 
-            fetch('https://uniconnect.africa/api/chat/private', {
+            fetch('https://renty-server.onrender.com/api/chat/private', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(messageData),
@@ -99,7 +99,7 @@ const PrivateChat = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await fetch(`https://uniconnect.africa/api/chat/users/${searchTerm}`);
+            const response = await fetch(`https://renty-server.onrender.com/api/chat/users/${searchTerm}`);
             const data = await response.json();
             setUsers(Array.isArray(data) ? data : []);
         } catch (error) {
