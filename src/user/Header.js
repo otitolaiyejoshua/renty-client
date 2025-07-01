@@ -44,10 +44,6 @@ const Header = () => {
         <Link to="/" className="logo">
           <img src="images/logos.jpg" alt="Logo" />
         </Link>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/discover">Discover</Link>
-        </nav>
         <div className="search-bar">
           <input
             type="text"

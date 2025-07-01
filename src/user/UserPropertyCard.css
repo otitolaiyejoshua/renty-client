@@ -7,10 +7,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   width: 100%;
-  height:300px;
+  height: 300px;
+  margin-bottom: 1.5rem;
 }
 
-/* Ensure the image maintains fixed dimensions */
+/* Image Section */
 .user-propertycard-image-container {
   width: 50%;
   height: 100%;
@@ -20,9 +21,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
-/* Card details are given the remaining space */
+/* Details Section */
 .user-propertycard-details-container {
   width: 50%;
   padding: 1rem;
@@ -34,6 +37,8 @@
 .user-propertycard-title {
   font-weight: bold;
   font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 4px;
 }
 
 .user-propertycard-address {
@@ -44,47 +49,61 @@
 .user-propertycard-description {
   margin: 0.5rem 0;
   color: #555;
+  font-size: 0.95rem;
 }
 
+/* Icon Features (2 per row grid) */
 .user-propertycard-features {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+  margin-top: 0.5rem;
   color: #666;
 }
 
 .feature {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 6px;
   font-size: 0.9rem;
 }
 
 .feature-icon {
   color: #2e7dc0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
+/* Price and Action Buttons */
 .user-propertycard-actions {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  flex-direction:column;
+  margin-top: 1rem;
 }
 
 .user-propertycard-price {
   font-size: 1rem;
   font-weight: bold;
+  color: #222;
+}
+
+/* Buttons Side-by-Side */
+.buttonactions {
+  display: flex;
+  gap: 10px;
 }
 
 .user-propertycard-button {
   background-color: #2e7dc0;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  margin-right:2.5px;
-  border-radius: 4px;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .user-propertycard-button:hover {
@@ -92,154 +111,135 @@
   color: #2e7dc0;
   border: 1px solid #2e7dc0;
 }
-/* Ensure buttons stay side-by-side on smaller screens */
-.buttonactions {
-  display: flex;
-  flex-direction: row; /* Forces buttons to stay in a row */
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px; /* Adjust spacing between buttons as needed */
-  width: 100%;
-}
 
-/* Additional media query to control button layout on very narrow screens */
-@media screen and (max-width: 400px) {
+/* Small Screens */
+@media screen and (max-width: 768px) {
   .user-propertycard-container {
-    height: auto; /* Allows height to adjust dynamically for smaller screens */
+    flex-direction: column;
+    height: auto;
+  }
+
+  .user-propertycard-image-container,
+  .user-propertycard-details-container {
+    width: 100%;
+  }
+
+  .user-propertycard-image-container img {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .user-propertycard-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .buttonactions {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .user-propertycard-button {
-    padding: 0.4rem 0.8rem; /* Adjusts button size for smaller screens */
-  }
-
-  /* Reduce the button width to keep them side-by-side on extra small screens */
-  .buttonactions .user-propertycard-button {
-    flex: 1; /* Make both buttons take equal width */
-  }
-}
-
-@media screen and (min-width:320px) and (max-width:1023px){
-  .inspect-modal{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    width:70%;
-    height:70%;
-    border:1px solid white;
-    border-radius:8px;
-  }
-  h2{
-    font-size:100%;
+    width: 100%;
     text-align: center;
   }
-  #inspection-content{
-    width:100%;
-    height:100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+
+  .user-propertycard-features {
+    grid-template-columns: 1fr 1fr;
   }
-  .inspection-actions{
-    width:90%;
-    height:15%;
-    display:flex;
+}
+
+/* Inspect Modal */
+.inspect-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 50%;
+  height: 50%;
+  border: 1px solid white;
+  border-radius: 8px;
+}
+
+#inspection-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.inspection-actions {
+  width: 90%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  width: 90%;
+}
+
+.image-grid img {
+  width: 120px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.expanded-image {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.expanded-image img {
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.inspection-buttons {
+  background-color: #2e7dc0;
+  color: white;
+  border: none;
+  width: 45%;
+  height: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Modal responsiveness */
+@media screen and (max-width: 768px) {
+  .inspect-modal {
+    width: 70%;
+    height: 70%;
+  }
+
+  .inspection-actions {
     flex-direction: column;
-    align-items: center;
+    height: 15%;
     justify-content: space-between;
   }
-  .image-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:1px;
-    width:90%;
+
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .image-grid img{
-    width:120px;
-    height:100px;
-    cursor:pointer;
-  }
-  .expanded-image{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    z-index:1000;
-  }
-  .expanded-image img{
-    max-width:90vw;
-    max-height:90vh;
-  }
+
   .inspection-buttons {
-    background-color: #2e7dc0;
-    color: white;
-    border: none;
-    width:90%;
-    height:90%;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom:2.5px;
+    width: 90%;
+    height: 90%;
+    margin-bottom: 2.5px;
   }
-  
-}
-@media screen and (min-width:1024px){
-  .inspect-modal{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    width:50%;
-    height:50%;
-    border:1px solid white;
-    border-radius:8px;
-  }
-  #inspection-content{
-    width:100%;
-    height:100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-  .inspection-actions{
-    width:90%;
-    height:10%;
-    display:flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-  .image-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:1px;
-    width:90%;
-  }
-  .image-grid img{
-    width:120px;
-    height:100px;
-    cursor:pointer;
-  }
-  .expanded-image{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    z-index:1000;
-  }
-  .expanded-image img{
-    max-width:90vw;
-    max-height:90vh;
-  }
-  .inspection-buttons {
-    background-color: #2e7dc0;
-    color: white;
-    border: none;
-    width:45%;
-    height:100%;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+  h2 {
+    font-size: 1rem;
+    text-align: center;
   }
 }
