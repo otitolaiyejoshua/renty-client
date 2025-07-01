@@ -42,7 +42,7 @@ const Header = () => {
     <header className="user-header">
       <div className="header-left">
         <Link to="/" className="logo">
-          <img src="images/logos.jpg" alt="Logo" />
+          <img src="images/renty.png" alt="Logo" />
         </Link>
         <div className="search-bar">
           <input
