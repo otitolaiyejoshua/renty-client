@@ -1,25 +1,18 @@
-/* --- PROPERTY CARD WRAPPER --- */
 .user-propertycard-container {
   display: flex;
   flex-direction: row;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  align-items: center;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
   width: 100%;
-  max-height: 320px;
-  margin-bottom: 24px;
+  height:300px;
 }
 
-.user-propertycard-container:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-/* --- IMAGE SECTION --- */
+/* Ensure the image maintains fixed dimensions */
 .user-propertycard-image-container {
-  width: 45%;
+  width: 50%;
   height: 100%;
 }
 
@@ -29,203 +22,224 @@
   object-fit: cover;
 }
 
-/* --- DETAILS SECTION --- */
+/* Card details are given the remaining space */
 .user-propertycard-details-container {
-  width: 55%;
-  padding: 1.5rem;
+  width: 50%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .user-propertycard-title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #222;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .user-propertycard-address {
   font-size: 0.9rem;
-  color: #777;
-  margin-bottom: 6px;
+  color: rgb(180, 180, 180);
 }
 
 .user-propertycard-description {
-  font-size: 0.95rem;
+  margin: 0.5rem 0;
   color: #555;
-  line-height: 1.4;
-  margin-bottom: 12px;
 }
 
-/* --- FEATURES --- */
 .user-propertycard-features {
   display: flex;
-  gap: 18px;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  color: #666;
 }
 
 .feature {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.3rem;
   font-size: 0.9rem;
-  color: #555;
 }
 
 .feature-icon {
-  color: #3f51b5;
-  font-size: 1rem;
+  color: #2e7dc0;
+  font-size: 1.2rem;
 }
 
-/* --- ACTIONS --- */
 .user-propertycard-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-direction:column;
 }
 
 .user-propertycard-price {
-  font-weight: bold;
   font-size: 1rem;
-  color: #222;
-}
-
-/* --- BUTTONS --- */
-.buttonaction {
-  display: flex;
-  gap: 8px;
+  font-weight: bold;
 }
 
 .user-propertycard-button {
-  background-color: #3f51b5;
+  background-color: #2e7dc0;
   color: white;
-  padding: 8px 16px;
   border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  padding: 0.5rem 1rem;
+  margin-right:2.5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  transition: background-color 0.3s ease;
 }
 
 .user-propertycard-button:hover {
   background-color: white;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
+  color: #2e7dc0;
+  border: 1px solid #2e7dc0;
+}
+/* Ensure buttons stay side-by-side on smaller screens */
+.buttonactions {
+  display: flex;
+  flex-direction: row; /* Forces buttons to stay in a row */
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px; /* Adjust spacing between buttons as needed */
+  width: 100%;
 }
 
-/* --- MOBILE STYLES --- */
-@media screen and (max-width: 768px) {
+/* Additional media query to control button layout on very narrow screens */
+@media screen and (max-width: 400px) {
   .user-propertycard-container {
-    flex-direction: column;
-    max-height: none;
-  }
-
-  .user-propertycard-image-container {
-    width: 100%;
-    height: 200px;
-  }
-
-  .user-propertycard-details-container {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .user-propertycard-features {
-    justify-content: space-between;
-  }
-
-  .user-propertycard-actions {
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-  }
-
-  .buttonaction {
-    width: 100%;
-    justify-content: space-between;
+    height: auto; /* Allows height to adjust dynamically for smaller screens */
   }
 
   .user-propertycard-button {
-    flex: 1;
-    text-align: center;
+    padding: 0.4rem 0.8rem; /* Adjusts button size for smaller screens */
+  }
+
+  /* Reduce the button width to keep them side-by-side on extra small screens */
+  .buttonactions .user-propertycard-button {
+    flex: 1; /* Make both buttons take equal width */
   }
 }
 
-/* --- INSPECTION MODAL (Mobile and Desktop Split) --- */
-.inspect-modal {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow-y: auto;
+@media screen and (min-width:320px) and (max-width:1023px){
+  .inspect-modal{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width:70%;
+    height:70%;
+    border:1px solid white;
+    border-radius:8px;
+  }
+  h2{
+    font-size:100%;
+    text-align: center;
+  }
+  #inspection-content{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .inspection-actions{
+    width:90%;
+    height:15%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .image-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    width:90%;
+  }
+  .image-grid img{
+    width:120px;
+    height:100px;
+    cursor:pointer;
+  }
+  .expanded-image{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    z-index:1000;
+  }
+  .expanded-image img{
+    max-width:90vw;
+    max-height:90vh;
+  }
+  .inspection-buttons {
+    background-color: #2e7dc0;
+    color: white;
+    border: none;
+    width:90%;
+    height:90%;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom:2.5px;
+  }
+  
 }
-
-#inspection-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.inspection-actions {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 8px;
-}
-
-.inspection-buttons {
-  background-color: #3f51b5;
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.3s;
-}
-
-.inspection-buttons:hover {
-  background-color: #2c3b9e;
-}
-
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 10px;
-  width: 100%;
-}
-
-.image-grid img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.image-grid img:hover {
-  transform: scale(1.05);
-}
-
-.expanded-image {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-}
-
-.expanded-image img {
-  max-width: 90vw;
-  max-height: 90vh;
-  border-radius: 8px;
+@media screen and (min-width:1024px){
+  .inspect-modal{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width:50%;
+    height:50%;
+    border:1px solid white;
+    border-radius:8px;
+  }
+  #inspection-content{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .inspection-actions{
+    width:90%;
+    height:10%;
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .image-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    width:90%;
+  }
+  .image-grid img{
+    width:120px;
+    height:100px;
+    cursor:pointer;
+  }
+  .expanded-image{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    z-index:1000;
+  }
+  .expanded-image img{
+    max-width:90vw;
+    max-height:90vh;
+  }
+  .inspection-buttons {
+    background-color: #2e7dc0;
+    color: white;
+    border: none;
+    width:45%;
+    height:100%;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 }
