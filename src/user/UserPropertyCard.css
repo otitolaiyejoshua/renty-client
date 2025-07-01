@@ -1,67 +1,75 @@
-/* ----------- Property Card Styles ----------- */
+/* UserPropertyCard.css — Responsive, Sophisticated, and Balanced */
+
 .user-propertycard-container {
   display: flex;
   flex-direction: row;
-  background-color: #ffffff;
+  align-items: stretch;
+  background-color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   width: 100%;
-  height: 300px;
-  margin-bottom: 2rem;
+  margin-bottom: 20px;
   transition: transform 0.3s ease;
 }
 
+.user-propertycard-container:hover {
+  transform: translateY(-4px);
+}
+
 .user-propertycard-image-container {
-  flex: 1;
-  height: 100%;
+  width: 50%;
+  max-height: 300px;
+  overflow: hidden;
 }
 
 .user-propertycard-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .user-propertycard-details-container {
-  flex: 1;
-  padding: 1.5rem;
+  width: 50%;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .user-propertycard-title {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: #222;
 }
 
 .user-propertycard-address {
-  font-size: 0.9rem;
-  color: #888;
-  margin-top: 4px;
+  font-size: 0.95rem;
+  color: #777;
+  margin-bottom: 4px;
 }
 
 .user-propertycard-description {
   font-size: 0.95rem;
-  margin: 10px 0;
   color: #555;
+  margin-bottom: 12px;
+  line-height: 1.4;
 }
 
 .user-propertycard-features {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px 16px;
-  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .feature {
   display: flex;
   align-items: center;
+  gap: 6px;
   font-size: 0.9rem;
   color: #444;
-  gap: 6px;
 }
 
 .feature-icon {
@@ -73,43 +81,49 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: auto;
 }
 
 .user-propertycard-price {
   font-size: 1.1rem;
-  font-weight: bold;
-  color: #222;
+  font-weight: 600;
+  color: #2e7dc0;
+}
+
+.buttonactions {
+  display: flex;
+  gap: 10px;
 }
 
 .user-propertycard-button {
-  background-color: #2e7dc0;
-  color: white;
+  padding: 8px 16px;
   border: none;
-  padding: 0.5rem 1rem;
   border-radius: 6px;
+  background-color: #2e7dc0;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  min-width: 90px;
+  transition: 0.3s ease;
 }
 
 .user-propertycard-button:hover {
-  background-color: #174e87;
+  background-color: #ffffff;
+  color: #2e7dc0;
+  border: 1px solid #2e7dc0;
 }
 
-/* ----------- Modal (Inspect Box) Styles ----------- */
+/* Modal Styling */
 .inspect-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #ffffff;
+  background: #fff;
   border-radius: 12px;
+  padding: 16px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  padding: 1rem;
-  max-width: 90%;
-  width: 600px;
+  max-width: 600px;
+  margin: auto;
+  position: relative;
+  z-index: 999;
+  width: 90vw;
   max-height: 90vh;
   overflow-y: auto;
   display: flex;
@@ -124,10 +138,19 @@
   gap: 1rem;
 }
 
+.inspection-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  width: 100%;
 }
 
 .image-grid img {
@@ -136,7 +159,6 @@
   object-fit: cover;
   border-radius: 6px;
   cursor: pointer;
-  border: 1px solid #ccc;
 }
 
 .expanded-image {
@@ -144,41 +166,36 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1100;
+  z-index: 2000;
 }
 
 .expanded-image img {
   max-width: 90vw;
   max-height: 90vh;
-  border-radius: 8px;
-}
-
-.inspection-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  border-radius: 10px;
 }
 
 .inspection-buttons {
+  padding: 10px 16px;
+  border-radius: 6px;
   background-color: #2e7dc0;
   color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border: none;
+  transition: 0.3s ease;
 }
 
 .inspection-buttons:hover {
-  background-color: #174e87;
+  background-color: #fff;
+  color: #2e7dc0;
+  border: 1px solid #2e7dc0;
 }
 
-@media (max-width: 768px) {
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
   .user-propertycard-container {
     flex-direction: column;
-    height: auto;
   }
 
   .user-propertycard-image-container,
@@ -186,28 +203,21 @@
     width: 100%;
   }
 
-  .user-propertycard-actions {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .inspect-modal {
-    width: 90%;
-    max-height: 90vh;
+  .user-propertycard-details-container {
     padding: 1rem;
   }
 
-  .image-grid img {
-    height: 80px;
-  }
-
-  .inspection-actions {
+  .user-propertycard-actions {
     flex-direction: column;
-    gap: 0.8rem;
+    align-items: stretch;
   }
 
-  .inspection-buttons {
-    width: 100%;
+  .buttonactions {
+    justify-content: space-between;
+  }
+
+  .inspect-modal {
+    width: 95vw;
+    max-height: 95vh;
   }
 }
