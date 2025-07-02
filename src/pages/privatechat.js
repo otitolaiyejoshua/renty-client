@@ -127,8 +127,8 @@ const PrivateChat = () => {
                 </div>
                 <div className="chat-list">
                     <div className="default-chat">
-                        <strong>Uniconnect</strong>
-                        <p>Welcome to Uniconnect support</p>
+                        <strong>Renty</strong>
+                        <p>Welcome to Renty support</p>
                     </div>
                     {chats.map(chat => (
                         <div

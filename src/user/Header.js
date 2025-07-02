@@ -100,7 +100,7 @@ const Header = () => {
         <Link to="/chats">
           <FontAwesomeIcon icon={faEnvelope} className="icon" />
         </Link>
-        <Link to="/forum">
+        <Link to="/user-dashboard/forum">
           <FontAwesomeIcon icon={faPaperPlane} className="icon" />
         </Link>
         <Link to="/user-dashboard/settings">

@@ -24,6 +24,7 @@ const AppRoutes = () => {
         { path: "properties", element: <Properties /> },
         { path: "analytics", element: <Analytics /> },
         { path: "mysettings", element: <AgentSettings /> },
+        { path: "forum", element: <GroupForum /> },
       ]
     },
     {
@@ -33,11 +34,11 @@ const AppRoutes = () => {
         { path: "", element: <UserDashboard /> },
         { path: "settings", element: <Settings /> },
         { path: "edit-information", element: <EditInformation /> },
+        { path: "forum", element: <GroupForum /> },
       ]
     },
     { path: "/", element: <Intro /> },
     { path: "/search", element: <SearchResults /> },
-    { path: "/forum", element: <GroupForum /> },
     { path: "/chats", element: <PrivateChat /> },
     { path: "/notifications", element: <Notifications /> },
   ]);

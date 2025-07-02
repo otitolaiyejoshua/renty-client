@@ -34,7 +34,7 @@ function Navbar() {
                     </Link>
                 </li>
                 <li className="nav-list">
-                    <Link className="alinks" to="/forum">
+                    <Link className="alinks" to="/agent-dashboard/forum">
                         <FontAwesomeIcon icon={faComments} className="icons" /> Forum
                     </Link>
                 </li>
