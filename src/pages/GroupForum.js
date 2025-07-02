@@ -53,7 +53,7 @@ const GroupForum = () => {
     return (
         <div className="group-forum-container">
             <div className="chat-header">
-                <h2>Uniconnect Forum</h2>
+                <h2>Renty Forum</h2>
             </div>
             <div className="chat-box" ref={chatBoxRef}>
                 {messages.map((msg, index) => (

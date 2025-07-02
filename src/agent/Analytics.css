@@ -9,7 +9,7 @@
 .analytics-container h2 {
     margin-bottom: 30px;
     font-size: 2em;
-    color: #333;
+    color: #2e7dc0;
     text-align: center;
 }
 
@@ -19,7 +19,6 @@
     gap: 20px;
     flex-wrap: wrap;
 }
-
 .card {
     background-color: #ffffff;
     border-radius: 10px;
