@@ -98,7 +98,7 @@
   flex-direction: row; /* Forces buttons to stay in a row */
   justify-content: space-between;
   align-items: center;
-  gap: 5px; /* Adjust spacing between buttons as needed */
+  gap: 3px; /* Adjust spacing between buttons as needed */
   width: 100%;
 }
 
@@ -124,8 +124,8 @@
     flex-direction: column;
     align-items: center;
     background-color: white;
-    width:70%;
-    height:70%;
+    width:80%;
+    height:80%;
     border:1px solid white;
     border-radius:8px;
   }
