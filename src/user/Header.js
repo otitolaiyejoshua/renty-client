@@ -1,39 +1,33 @@
-// src/components/Header.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faHome, 
-  faGear, 
-  faBell, 
-  faEnvelope, 
-  faSearch, 
-  faPaperPlane, 
-  faBars, // Font Awesome icon for the hamburger menu
-  faTimes // Font Awesome icon for the close menu
-} from '@fortawesome/free-solid-svg-icons'; // Ensure to import the correct icons
+import {
+  faHome,
+  faGear,
+  faBell,
+  faEnvelope,
+  faSearch,
+  faPaperPlane,
+  faBars,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
-  // Handle input change
   const handleInputChange = (e) => {
     setQuery(e.target.value);
   };
 
-  // Handle search submission
-  const handleSearch = async () => {
-    if (query.trim() === '') {
-      return;
-    } else {
+  const handleSearch = () => {
+    if (query.trim() !== '') {
       navigate(`/search?query=${encodeURIComponent(query.trim())}`);
     }
   };
 
-  // Toggle navigation menu (for mobile or responsive design)
   const toggleNav = () => {
     setOpen(!open);
   };
@@ -44,6 +38,7 @@ const Header = () => {
         <Link to="/" className="logo">
           <img src="images/renty.png" alt="Logo" />
         </Link>
+
         <div className="search-bar">
           <input
             type="text"
@@ -61,45 +56,47 @@ const Header = () => {
           />
         </div>
       </div>
+
       <span className="hamburger" onClick={toggleNav}>
         {open ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faBars} />}
       </span>
+
+      {/* Mobile Dropdown Nav */}
       <ul className={`nav-drop ${open ? 'open' : ''}`}>
         <li className="nav-drop-list">
           <Link to="/user-dashboard" className="dlinks">
             <FontAwesomeIcon icon={faHome} className="dicon" />
+            <span className="dlabel">Home</span>
           </Link>
-          <span className="dlabel">Home</span>
         </li>
         <li className="nav-drop-list">
           <Link to="/notifications" className="dlinks">
             <FontAwesomeIcon icon={faBell} className="dicon" />
+            <span className="dlabel">Notifications</span>
           </Link>
-          <span className="dlabel">Notifications</span>
         </li>
         <li className="nav-drop-list">
           <Link to="/chats" className="dlinks">
             <FontAwesomeIcon icon={faEnvelope} className="dicon" />
+            <span className="dlabel">Messages</span>
           </Link>
-          <span className="dlabel">Messages</span>
         </li>
         <li className="nav-drop-list">
           <Link to="/forum" className="dlinks">
             <FontAwesomeIcon icon={faPaperPlane} className="dicon" />
+            <span className="dlabel">Forum</span>
           </Link>
-          <span className="dlabel">Forum</span>
         </li>
         <li className="nav-drop-list">
           <Link to="/user-dashboard/settings" className="dlinks">
             <FontAwesomeIcon icon={faGear} className="dicon" />
+            <span className="dlabel">Settings</span>
           </Link>
-          <span className="dlabel">Settings</span>
         </li>
       </ul>
+
+      {/* Desktop Icons */}
       <div className="header-right">
-        <Link to="/notifications">
-          <FontAwesomeIcon icon={faBell} className="icon" />
-        </Link>
         <Link to="/chats">
           <FontAwesomeIcon icon={faEnvelope} className="icon" />
         </Link>
