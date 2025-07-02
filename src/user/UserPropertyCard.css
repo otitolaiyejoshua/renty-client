@@ -126,7 +126,7 @@
   background-color: white;
   width: 90vw;
   max-width: 500px;
-  max-height: 90vh;
+  max-height: 95vh;
   height: auto;
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -144,7 +144,7 @@ h2 {
 }
 
 #inspection-content {
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
