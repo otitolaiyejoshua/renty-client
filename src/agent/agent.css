@@ -1,262 +1,170 @@
-/* Default styles */
+/* ---------- Global Layout ---------- */
 .app-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7fa;
 }
 
+/* ---------- Header ---------- */
 .agent-header {
-    background-color: white;
-    width: 100%;
-    height: 15%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  background-color: #fff;
+  width: 100%;
+  height: 70px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
 
 .AgentDashboard {
-    color: rgb(63, 81, 181);
-}
-
-.main-container {
-    display: flex;
-    width: 100%;
-    height: 85%;
-    flex-direction: row; /* Initially in row for larger screens */
-    overflow: hidden;
-}
-
-.nav-list {
-    color: black;
-    font-size: 70%;
-    display: flex;
-    align-items: self-start;
-    margin: 10px 0;
-}
-
-.nav-list:hover {
-    width: 100%;
-    color: rgb(63, 81, 181);
-    border-radius: 8px;
-    background-color: rgb(193, 209, 216);
-}
-
-.icons {
-    font-size: 100%;
-    margin-right: 10px;
-}
-
-.agent-navbar {
-    width: 15%; /* Adjust width as needed */
-    background-color: white;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-    align-items: center;
-    height: 75vh;
-}
-
-.nav-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: self-start;
-    justify-content: flex-start;
-    height: 100%;
-}
-
-.content {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.alinks {
-    text-decoration: none;
-    color: rgb(73, 72, 72);
-    text-align: center;
-    display: flex;
-    align-items: self-start;
-    justify-content: center;
-    width: 100%;
-    margin-right: 50px;
-    font-weight: bolder;
-}
-
-.alinks:hover {
-    color: rgb(63, 81, 181);
-}
-
-.spaced {
-    margin-right: 15px;
-    margin-top: 15px;
+  color: #2e7dc0;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .logo {
-    width: 65px;
-    height: 65px;
-    margin-left: 30px;
+  width: 55px;
+  height: 55px;
 }
 
 .person {
-    width: 50px;
-    height: 50px;
-    border-radius: 100px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-/* Mobile and Tablet responsiveness */
+/* ---------- Main Section ---------- */
+.main-container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 70px);
+  overflow: hidden;
+}
+
+/* ---------- Navbar ---------- */
+.agent-navbar {
+  width: 220px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-container {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-list {
+  width: 100%;
+}
+
+.alinks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.alinks:hover {
+  background-color: #e6f0f8;
+  color: #2e7dc0;
+}
+
+.icons {
+  font-size: 1rem;
+  color: #2e7dc0;
+}
+
+/* ---------- Content ---------- */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+}
+
+/* ---------- Responsive Design ---------- */
 @media (max-width: 1024px) {
-    .main-container {
-        flex-direction: column; /* Stack content vertically on tablet and smaller */
-    }
+  .main-container {
+    flex-direction: column;
+  }
 
-    .agent-navbar {
-        width: 100%; /* Full width on tablets */
-        height: auto; /* Allow flexibility in height */
-        padding: 10px;
-    }
+  .agent-navbar {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+    width: 100%;
+    justify-content: space-around;
+  }
 
-    .content {
-        padding-top: 20px; /* Provide spacing from the navbar */
-    }
+  .nav-container {
+    flex-direction: row;
+    gap: 15px;
+  }
 
-    .nav-list {
-        font-size: 1rem; /* Increase font size for readability on tablets */
-    }
-
-    .agent-header {
-        height: 20%; /* Adjust header size */
-    }
-
-    .logo {
-        width: 50px;
-        height: 50px;
-    }
-
-    .person {
-        width: 45px;
-        height: 45px;
-    }
-
-    .nav-container {
-        padding: 0 15px; /* Add padding for better spacing */
-    }
-
-    .nav-list {
-        font-size: 1rem; /* Slightly increase font size */
-    }
-
-    .main-container {
-        height: auto; /* Allow the content to adjust */
-        padding-top: 20px;
-    }
+  .alinks {
+    flex-direction: column;
+    font-size: 0.85rem;
+    padding: 8px;
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 768px) {
-    .app-container {
-        flex-direction: column;
-    }
+  .agent-header {
+    height: 60px;
+    padding: 0 10px;
+  }
 
-    .agent-header {
-        height: 12%; /* Adjust header size */
-    }
+  .AgentDashboard {
+    font-size: 1.2rem;
+  }
 
-    .main-container {
-        flex-direction: column; /* Stack elements vertically */
-        height: auto; /* Allow flexibility in height */
-    }
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
 
-    .agent-navbar {
-        width: 100%;
-        height: auto;
-        padding: 15px;
-        align-items: flex-start; /* Align navbar content to the start */
-    }
+  .person {
+    width: 40px;
+    height: 40px;
+  }
 
-    .logo {
-        width: 50px;
-        height: 50px;
-        margin-left: 15px;
-    }
-
-    .person {
-        width: 45px;
-        height: 45px;
-    }
-
-    .nav-container {
-        padding: 0 10px;
-    }
-
-    .nav-list {
-        font-size: 0.9rem; /* Adjust font size for mobile */
-    }
-
-    .content {
-        padding-top: 10px;
-    }
-
-    .main-container {
-        height: auto;
-        flex-direction: column;
-    }
-
-    .alinks {
-        margin-right: 20px;
-    }
-
-    .agent-navbar {
-        padding: 10px 15px;
-    }
+  .alinks {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
 }
 
-/* Mobile Portrait */
 @media (max-width: 480px) {
-    .agent-header {
-        height: 10%;
-    }
+  .agent-navbar {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
 
-    .logo {
-        width: 40px;
-        height: 40px;
-        margin-left: 10px;
-    }
+  .alinks {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+  }
 
-    .person {
-        width: 40px;
-        height: 40px;
-    }
-
-    .main-container {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .agent-navbar {
-        width: 100%;
-        height: auto;
-        padding: 10px 15px;
-        align-items: center;
-    }
-
-    .nav-list {
-        font-size: 0.8rem;
-    }
-
-    .nav-container {
-        padding: 0 5px;
-    }
-
-    .content {
-        padding-top: 15px;
-    }
+  .content {
+    padding: 20px;
+  }
 }

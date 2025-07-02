@@ -106,6 +106,9 @@ const Header = () => {
         <Link to="/user-dashboard/settings">
           <FontAwesomeIcon icon={faGear} className="icon" />
         </Link>
+        <Link to="/user-dashboard/settings">
+          <FontAwesomeIcon icon={faGear} className="icon" />
+        </Link>
       </div>
     </header>
   );
