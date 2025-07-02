@@ -22,7 +22,7 @@ function EditInformation() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`https://uniconnect.africa/api/userSettings/${userId}`, {
+                const res = await axios.get(`https://renty-server.onrender.com/api/userSettings/${userId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -59,7 +59,7 @@ function EditInformation() {
         setError('');
 
         try {
-            const res = await axios.put(`https://uniconnect.africa/api/userSettings/profile`, {
+            const res = await axios.put(`https://renty-server.onrender.com/api/userSettings/profile`, {
                 username: form.username,
                 email: form.email
             }, {
