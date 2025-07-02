@@ -125,7 +125,7 @@
     align-items: center;
     background-color: white;
     width:80%;
-    height:80%;
+    height:85vh;
     border:1px solid white;
     border-radius:8px;
   }
@@ -180,7 +180,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-bottom:2.5px;
+    margin-bottom:0.5px;
   }
 }
 @media screen and (min-width:1024px){
