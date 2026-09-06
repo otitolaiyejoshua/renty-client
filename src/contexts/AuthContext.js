@@ -1,7 +1,7 @@
 // src/contexts/AuthContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
-import axios from 'axios';
+import api from 'api';
 import { getUserData } from '../getUserData';
 // Create the AuthContext
 const AuthContext = createContext();
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
                 const decoded = jwt_decode(token);
                 setUser(decoded);
                 // Optionally, verify token with backend
-                // axios.get('/api/auth/verify', { headers: { Authorization: `Bearer ${token}` } })
+                // api.get('/api/auth/verify', { headers: { Authorization: `Bearer ${token}` } })
                 //     .then(res => { /* Token is valid */ })
                 //     .catch(err => { logout(); });
             } catch (error) {

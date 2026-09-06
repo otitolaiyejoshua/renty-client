@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import './Intro.css';
@@ -59,13 +59,13 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
 
     setIsLoading(true);
 
-    const url = `https://renty-server.onrender.com/api/auth/${currentIsLogin ? 'login' : 'register'}`;
+    const url = `/api/auth/${currentIsLogin ? 'login' : 'register'}`;
     const payload = currentIsLogin
       ? { email, password, role: userType }
       : { username, email, password, role: userType };
 
     try {
-      const response = await axios.post(url, payload);
+      const response = await api.post(url, payload);
       console.log('Response:', response.data);
 
       if (currentIsLogin) {
@@ -105,7 +105,7 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('https://renty-server.onrender.com/api/auth/verify-email', {
+      const response = await api.post('/api/auth/verify-email', {
         email,
         verificationCode,
       });
@@ -130,7 +130,7 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
   const resendVerificationCode = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post('https://renty-server.onrender.com/api/auth/resend-verification', { email });
+      const response = await api.post('api/api/auth/resend-verification', { email });
       console.log('Resend Verification Code Response:', response.data);
 
       if (response.data.success) {
@@ -199,20 +199,23 @@ const PopupForm = ({ isOpen, onClose, initialIsLogin }) => {
         {!isEmailVerification && (
           <>
             <div className="user-type-container">
-              <button
-                className={`user-type-button ${userType === 'user' ? 'active' : ''}`}
-                onClick={() => setUserType('user')}
-                disabled={isLoading}
-              >
-                User
-              </button>
-              <button
-                className={`user-type-button ${userType === 'agent' ? 'active' : ''}`}
-                onClick={() => setUserType('agent')}
-                disabled={isLoading}
-              >
-                Agent
-              </button>
+             <button 
+                    type="button"
+                    className={`user-type-button ${userType === 'user' ? 'active' : ''}`} 
+                    onClick={() => setUserType('user')}
+                    disabled={isLoading} 
+                  >
+                    User 
+                  </button>
+
+                  <button 
+                    type="button"
+                    className={`user-type-button ${userType === 'agent' ? 'active' : ''}`} 
+                    onClick={() => setUserType('agent')}
+                    disabled={isLoading} 
+                  >
+                    Agent 
+                  </button>
             </div>
 
             <form className="form" onSubmit={handleSubmit}>

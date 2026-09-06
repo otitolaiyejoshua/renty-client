@@ -1,55 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function LandingPage({ openLoginPopup, openSignupPopup, handleScroll }) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  function toggleNav() {
-    setOpen(!open);
-  }
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const go = (section) => {
+    handleScroll(section);
+    setOpen(false);
+  };
 
   return (
-    <>
-      <div className="header">
-        <img className="logo" alt="logo" src="images/renty.png" />
-        <span className="nav-opener" onClick={toggleNav}>
-          {open ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faBars} />}
-        </span>
-        <ul className={`nav-items ${open ? 'open' : ''}`}>
-          <li>
-            <span className="links" onClick={() => handleScroll('main')}>
-              <FontAwesomeIcon icon={faHome} /> Home
-            </span>
-          </li>
-          <li>
-            <span className="links" onClick={() => handleScroll('about-us')}>
-              About us
-            </span>
-          </li>
-          <li>
-            <span className="links" onClick={() => handleScroll('services')}>
-              Services
-            </span>
-          </li>
-          <li>
-            <span className="links" onClick={() => handleScroll('forum')}>
-              Forum
-            </span>
-          </li>
-          <li>
-            <button className="stylebtn" onClick={() => openLoginPopup(true)}>
-              Login
-            </button>
-          </li>
-          <li>
-            <button className="stylebtn" onClick={() => openSignupPopup(false)}>
-              SignUp
-            </button>
-          </li>
-        </ul>
-      </div>
-    </>
+    <header className={`header ${scrolled ? 'header-scrolled' : ''}`}>
+      <button className="brand" onClick={() => go('main')} aria-label="Go to Renty home">
+        <img src="/images/renty.png" alt="Renty" />
+        <span>Renty</span>
+      </button>
+
+      <nav className={`nav-items ${open ? 'open' : ''}`} aria-label="Primary navigation">
+        <button className="links active" onClick={() => go('main')}>Home</button>
+        <button className="links" onClick={() => go('about-us')}>About</button>
+        <button className="links" onClick={() => go('services')}>How it works</button>
+        <button className="links" onClick={() => go('forum')}>Community</button>
+        <div className="nav-actions">
+          <button className="login-link" onClick={() => { openLoginPopup(); setOpen(false); }}>Log in</button>
+          <button className="stylebtn" onClick={() => { openSignupPopup(); setOpen(false); }}>Get started</button>
+        </div>
+      </nav>
+
+      <button
+        className="nav-opener"
+        onClick={() => setOpen((value) => !value)}
+        aria-label={open ? 'Close navigation' : 'Open navigation'}
+        aria-expanded={open}
+      >
+        <FontAwesomeIcon icon={open ? faTimes : faBars} />
+      </button>
+    </header>
   );
 }
 

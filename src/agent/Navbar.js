@@ -1,51 +1,18 @@
-// Navbar.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faChartLine, faDollarSign, faBell, faBuilding, faComments, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faGaugeHigh, faChartLine, faBuilding, faComments, faBell, faGear, faEnvelope, faPlus, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
-    return (
-        <nav className="agent-navbar">
-            <ul className="nav-container">
-                <li className="nav-list">
-                    <Link className="alinks" to="/agent-dashboard/analytics">
-                        <FontAwesomeIcon icon={faChartLine} className="icons" /> Analytics
-                    </Link>
-                </li>
-                <li className="nav-list">
-                    <Link className="alinks" to="/agent-dashboard/payments">
-                        <FontAwesomeIcon icon={faDollarSign} className="icons" /> Payments
-                    </Link>
-                </li>
-                <li className="nav-list">
-                    <Link className="alinks" to="/chats">
-                        <FontAwesomeIcon icon={faEnvelope} className="icons" /> Messages
-                    </Link>
-                </li>
-                <li className="nav-list">
-                    <Link className="alinks" to="/notifications">
-                        <FontAwesomeIcon icon={faBell} className="icons" /> Notifications
-                    </Link>
-                </li>
-                <li className="nav-list">
-                    <Link className="alinks" to="/agent-dashboard/properties">
-                        <FontAwesomeIcon icon={faBuilding} className="icons" /> Properties
-                    </Link>
-                </li>
-                <li className="nav-list">
-                    <Link className="alinks" to="/agent-dashboard/forum">
-                        <FontAwesomeIcon icon={faComments} className="icons" /> Forum
-                    </Link>
-                </li>
-                <li className="nav-list">
-                    <Link className="alinks" to="/agent-dashboard/mysettings">
-                        <FontAwesomeIcon icon={faCog} className="icons" /> Settings
-                    </Link>
-                </li>
-            </ul>
-        </nav>
-    );
+ const navigate=useNavigate();
+ const logout=()=>{localStorage.removeItem('userData');navigate('/')};
+ const links=[['/agent-dashboard','Overview',faGaugeHigh],['/agent-dashboard/properties','My properties',faBuilding],['/agent-dashboard/analytics','Analytics',faChartLine],['/chats','Messages',faEnvelope],['/notifications','Notifications',faBell],['/agent-dashboard/forum','Community',faComments],['/agent-dashboard/mysettings','Settings',faGear]];
+ return <aside className="agent-sidebar">
+   <div className="sidebar-label">Workspace</div>
+   <nav>{links.map(([to,label,icon])=><NavLink key={to} end={to==='/agent-dashboard'} to={to} className={({isActive})=>`agent-nav-link ${isActive?'active':''}`}><FontAwesomeIcon icon={icon}/><span>{label}</span>{label==='Notifications'&&<b>•</b>}</NavLink>)}</nav>
+   <button className="agent-sidebar-logout" onClick={logout}><FontAwesomeIcon icon={faArrowRightFromBracket}/><span>Log out</span></button>
+   <div className="sidebar-promo"><span className="promo-icon"><FontAwesomeIcon icon={faPlus}/></span><strong>Grow your listings</strong><p>Add a new property and reach more renters.</p><NavLink to="/agent-dashboard/properties">Create listing →</NavLink></div>
+   <div className="sidebar-footer">Renty Agent <span>v1.0</span></div>
+ </aside>;
 }
-
 export default Navbar;

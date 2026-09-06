@@ -1,82 +1,9 @@
-// src/components/SearchResults.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import { useLocation } from 'react-router-dom';
 import './SearchResults.css';
 import Header from './Header';
 import PropertyCard from './PropertyCard';
-import InspectModal from './InspectModal'
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
+import InspectModal from './InspectModal';
 
-const SearchResults = () => {
-  const query = useQuery();
-  const searchTerm = query.get('query');
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedProperty,setSelectedProperty] = useState(null);
-  const [isModalOpen,setIsModalOpen] = useState(false)
-
-  useEffect(() => {
-    const fetchProperties = async () => {
-      if (!searchTerm) {
-        setError('No search term provided.');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await axios.get('https://renty-server.onrender.com/api/properties/search/'+searchTerm, {
-        });
-        console.log('Search Results:', response.data); // Debugging log
-        setProperties(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching search results:', err);
-        setError('Failed to fetch search results.');
-        setLoading(false);
-      }
-    };
-
-    fetchProperties();
-  }, [searchTerm]);
-
-  if (loading) {
-    return <div className="search-results"><p>Loading...</p></div>;
-  }
-
-  if (error) {
-    return <div className="search-results"><p>{error}</p></div>;
-  }
-
-  if (properties.length === 0) {
-    return <div className="search-results"><p>No properties found for "{searchTerm}".</p></div>;
-  }
-  const handleInspect = (property)=>{
-    setSelectedProperty(property);
-    setIsModalOpen(true);
-  }
-  const handleCloseModal=()=>{
-    setSelectedProperty(null);
-
-
-
-    setIsModalOpen(false)
-  }
-  return (
-    <div className="search-results">
-      <fontAwesome icon="fa-arrow-right"/>
-      <h2>Properties around "{searchTerm}"</h2>
-      <div className="property-list">
-        {properties.map(property => (
-          <PropertyCard property={property} key={property.id} onInspect={handleInspect} />
-        ))}
-      </div>
-      {isModalOpen && selectedProperty &&(<InspectModal property={selectedProperty} onClose={handleCloseModal}/>)}
-    </div>
-  );
-};
-
-export default SearchResults;
+const SearchResults=()=>{const searchTerm=new URLSearchParams(useLocation().search).get('query');const [properties,setProperties]=useState([]);const [loading,setLoading]=useState(true);const [error,setError]=useState('');const [selected,setSelected]=useState(null);useEffect(()=>{const run=async()=>{if(!searchTerm){setError('No search term provided.');setLoading(false);return}try{const r=await api.get(`/api/properties/search/${encodeURIComponent(searchTerm)}`);setProperties(Array.isArray(r.data)?r.data:[])}catch(e){console.error(e);setError('We could not load search results right now.')}finally{setLoading(false)}};run()},[searchTerm]);return <div className="renty-search-page"><Header/><main className="renty-search-content">{loading?<div className="renty-search-state"><h2>Finding homes…</h2><p>Searching Renty for properties around “{searchTerm}”.</p></div>:error?<div className="renty-search-state"><h2>Something went wrong</h2><p>{error}</p></div>:properties.length===0?<div className="renty-search-state"><h2>No homes found</h2><p>We couldn't find properties matching “{searchTerm}”. Try another university, area or keyword.</p></div>:<><div className="renty-search-head"><div><p className="renty-search-eyebrow">Search results</p><h1>Homes around “{searchTerm}”</h1><p>Compare available spaces and inspect the ones that fit you.</p></div><span className="renty-search-count">{properties.length} {properties.length===1?'property':'properties'}</span></div><div className="renty-search-grid">{properties.map(p=><PropertyCard key={p.id||p._id} property={p} onInspect={setSelected}/>)}</div></>}{selected&&<InspectModal property={selected} onClose={()=>setSelected(null)}/>}</main></div>};export default SearchResults;

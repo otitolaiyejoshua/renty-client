@@ -1,8 +1,8 @@
 // EditInformation.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { getUserData } from './getUserData'; // Adjust the path as necessary
-import './EditInformation.css'; // Optional CSS for styling
+import api from './api/api';
+import { getUserData } from './getUserData';
+import './EditInformation.css';
 
 function EditInformation() {
     const userData = getUserData();
@@ -22,11 +22,12 @@ function EditInformation() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`https://renty-server.onrender.com/api/userSettings/${userId}`, {
+                const res = await api.get(`/api/userSettings/${userId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
+
                 setForm({
                     username: res.data.username,
                     email: res.data.email,
@@ -59,7 +60,7 @@ function EditInformation() {
         setError('');
 
         try {
-            const res = await axios.put(`https://renty-server.onrender.com/api/userSettings/profile`, {
+            const res = await api.put(`/api/userSettings/profile`, {
                 username: form.username,
                 email: form.email
             }, {
@@ -80,6 +81,7 @@ function EditInformation() {
             <h2>Edit Information</h2>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
+
             <form onSubmit={handleProfileUpdate}>
                 <label>
                     Username:
@@ -91,7 +93,9 @@ function EditInformation() {
                         required
                     />
                 </label>
+
                 <br />
+
                 <label>
                     Phone Number:
                     <input
@@ -102,7 +106,9 @@ function EditInformation() {
                         required
                     />
                 </label>
+
                 <br />
+
                 <button type="submit">Update Profile</button>
             </form>
         </div>

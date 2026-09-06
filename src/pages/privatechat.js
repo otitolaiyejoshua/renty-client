@@ -1,194 +1,33 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import io from 'socket.io-client';
-import { getUserData, setUserData } from '../getUserData';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUserData } from '../getUserData';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight, faArrowRightFromBracket, faMagnifyingGlass, faPaperPlane, faComments, faCircle, faHouse } from '@fortawesome/free-solid-svg-icons';
 import './PrivateChat.css';
 
+const API_URL = process.env.REACT_APP_API_URL || '';
+const SOCKET_URL = API_URL || window.location.origin;
+
 const PrivateChat = () => {
-    const userData = getUserData();
-    const userId = userData ? userData.userId : null;
-    const userName = userData ? userData.userName : null;
+  const userData = getUserData();
+  const userId = userData?.userId || null;
+  const userName = userData?.userName || userData?.username || 'Renty member';
+  const navigate = useNavigate();
+  const socketRef = useRef(null);
+  const bottomRef = useRef(null);
+  const [messages,setMessages]=useState([]),[newMessage,setNewMessage]=useState(''),[receiverId,setReceiverId]=useState(userData?.receiverId||null),[receiverName,setReceiverName]=useState(userData?.receiverName||''),[users,setUsers]=useState([]),[searchTerm,setSearchTerm]=useState(''),[chats,setChats]=useState([]),[searching,setSearching]=useState(false),[loading,setLoading]=useState(false),[connected,setConnected]=useState(false);
 
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState('');
-    const [receiverId, setReceiverId] = useState(userData?.receiverId || null);
-    const [receiverName, setReceiverName] = useState('');
-    const [users, setUsers] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [chats, setChats] = useState([]);
-    
-    // Use a ref to store the socket instance
-    const socketRef = useRef(null);
-
-    useEffect(() => {
-        // Initialize socket connection only once
-        socketRef.current = io('https://renty-server.onrender.com');
-
-        // Retrieve chats from local storage when the component mounts
-        const storedChats = JSON.parse(localStorage.getItem('recentChats')) || [];
-        setChats(storedChats);
-
-        // Load chat history for the user
-        fetch(`https://renty-server.onrender.com/api/chat/history/${userId}`)
-            .then(res => res.json())
-            .then(data => {
-                const uniqueChats = Array.isArray(data) ? [...new Set([...storedChats, ...data])] : storedChats;
-                setChats(uniqueChats);
-                localStorage.setItem('recentChats', JSON.stringify(uniqueChats)); // Update local storage
-            })
-            .catch(error => console.error("Error fetching chat history:", error));
-
-        // Socket event to receive new private messages
-        socketRef.current.on('receivePrivateMessage', (message) => {
-            setMessages(prev => [...prev, message]);
-        });
-
-        // Cleanup function
-        return () => {
-            socketRef.current.off();
-            socketRef.current.disconnect();
-        };
-    }, [userId]);
-
-    useEffect(() => {
-        if (receiverId) {
-            // Fetch messages for a selected chat
-            fetch(`https://renty-server.onrender.com/api/chat/private/${userId}/${receiverId}`)
-                .then(res => res.json())
-                .then(data => setMessages(Array.isArray(data) ? data : []))
-                .catch(error => console.error("Error fetching messages:", error));
-        }
-    }, [receiverId, userId]);
-
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        if (newMessage.trim() !== '' && receiverId) {
-            const messageData = {
-                senderId: userId,
-                receiverId,
-                senderName: userName,
-                message: newMessage,
-            };
-            socketRef.current.emit('sendPrivateMessage', messageData);
-
-            fetch('https://renty-server.onrender.com/api/chat/private', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(messageData),
-            });
-
-            setMessages(prev => [...prev, messageData]);
-            setNewMessage('');
-
-            // Save chat to recent chats and local storage
-            const updatedChats = [...chats.filter(chat => chat.receiverId !== receiverId), { receiverId, receiverName }];
-            setChats(updatedChats);
-            localStorage.setItem('recentChats', JSON.stringify(updatedChats));
-        }
-    };
-
-    const handleUserSelect = (user) => {
-        setReceiverId(user.id);
-        setReceiverName(user.name);
-        setUserData({ userId, name: userName, receiverId: user.id, receiverName: user.name });
-
-        // Add selected user to recent chats and update local storage
-        const updatedChats = [...chats.filter(chat => chat.receiverId !== user.id), { receiverId: user.id, receiverName: user.name }];
-        setChats(updatedChats);
-        localStorage.setItem('recentChats', JSON.stringify(updatedChats));
-    };
-
-    const handleSearch = async () => {
-        try {
-            const response = await fetch(`https://renty-server.onrender.com/api/chat/users/${searchTerm}`);
-            const data = await response.json();
-            setUsers(Array.isArray(data) ? data : []);
-        } catch (error) {
-            console.error('Error fetching users:', error);
-            setUsers([]);
-        }
-    };
-
-    return (
-        <div className="private-chat-container">
-            <div className="sidebar">
-                <div className="search-section">
-                    <h2>Search Users</h2>
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Search by Email..."
-                        className="search-input"
-                    />
-                    <button onClick={handleSearch} className="search-button">Search</button>
-                </div>
-                <div className="sidebar-header">
-                    <h2>Your Chats</h2>
-                </div>
-                <div className="chat-list">
-                    <div className="default-chat">
-                        <strong>Renty</strong>
-                        <p>Welcome to Renty support</p>
-                    </div>
-                    {chats.map(chat => (
-                        <div
-                            key={chat.receiverId}
-                            onClick={() => handleUserSelect({ id: chat.receiverId, name: chat.receiverName })}
-                            className="chat-item"
-                        >
-                            {chat.receiverName}
-                        </div>
-                    ))}
-                </div>
-                <div className="user-list">
-                    {users.length > 0 ? (
-                        users.map(user => (
-                            <div
-                                key={user.id}
-                                className="user-item"
-                                onClick={() => handleUserSelect(user)}
-                            >
-                                {user.name} ({user.email})
-                            </div>
-                        ))
-                    ) : (
-                        <div className="no-users">No users found.</div>
-                    )}
-                </div>
-            </div>
-            <div className="chat-window">
-                {receiverId ? (
-                    <>
-                        <h2>Chat with {receiverName}</h2>
-                        <div className="messages">
-                            {messages.map((msg, index) => (
-                                <div
-                                    key={index}
-                                    className={`message ${msg.senderId === userId ? 'sent' : 'received'}`}
-                                >
-                                    <strong>{msg.senderName}:</strong> {msg.message}
-                                </div>
-                            ))}
-                        </div>
-                        <form onSubmit={handleSendMessage} className="message-form">
-                            <input
-                                type="text"
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                placeholder="Type a message..."
-                                className="message-input"
-                            />
-                            <button type="submit" className="send-button">Send</button>
-                        </form>
-                    </>
-                ) : (
-                    <div className="start-chat">
-                        <h2>Select a user to start chatting</h2>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+  const initials=useMemo(()=>userName.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(),[userName]);
+  useEffect(()=>{if(!userId)return;const stored=JSON.parse(localStorage.getItem('recentChats')||'[]');setChats(stored);socketRef.current=io(SOCKET_URL,{transports:['websocket','polling']});socketRef.current.on('connect',()=>setConnected(true));socketRef.current.on('disconnect',()=>setConnected(false));const receive=(message)=>{if(message.senderId===receiverId||message.receiverId===receiverId)setMessages(prev=>[...prev,message]);};socketRef.current.on('receivePrivateMessage',receive);fetch(`${API_URL}/api/chat/history/${userId}`).then(r=>r.ok?r.json():[]).then(data=>{if(Array.isArray(data)){const merged=[...stored,...data].filter(Boolean);setChats(merged);localStorage.setItem('recentChats',JSON.stringify(merged));}}).catch(console.error);return()=>{socketRef.current?.off('receivePrivateMessage',receive);socketRef.current?.disconnect()}},[userId,receiverId]);
+  useEffect(()=>{bottomRef.current?.scrollIntoView({behavior:'smooth'})},[messages]);
+  useEffect(()=>{if(!receiverId||!userId)return;setLoading(true);fetch(`${API_URL}/api/chat/private/${userId}/${receiverId}`).then(r=>r.ok?r.json():[]).then(data=>setMessages(Array.isArray(data)?data:[])).catch(console.error).finally(()=>setLoading(false))},[receiverId,userId]);
+  const selectUser=(u)=>{setReceiverId(u.id);setReceiverName(u.name||u.username||u.email||'Renty member');setUsers([]);const item={receiverId:u.id,receiverName:u.name||u.username||u.email||'Renty member'};const updated=[item,...chats.filter(c=>String(c.receiverId)!==String(u.id))];setChats(updated);localStorage.setItem('recentChats',JSON.stringify(updated));};
+  const search=async(e)=>{e?.preventDefault();if(!searchTerm.trim())return;setSearching(true);try{const r=await fetch(`${API_URL}/api/chat/users/${encodeURIComponent(searchTerm.trim())}`);const data=await r.json();setUsers(Array.isArray(data)?data:[])}catch(err){console.error(err);setUsers([])}finally{setSearching(false)}};
+  const send=async(e)=>{e.preventDefault();const text=newMessage.trim();if(!text||!receiverId)return;const data={senderId:userId,receiverId,senderName:userName,message:text};socketRef.current?.emit('sendPrivateMessage',data);setMessages(prev=>[...prev,data]);setNewMessage('');try{await fetch(`${API_URL}/api/chat/private`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})}catch(err){console.error('Message save failed:',err)}};
+  const logout=()=>{localStorage.removeItem('userData');navigate('/')};
+  return <div className="renty-chat-app"><header className="renty-chat-header"><div className="renty-chat-brand"><Link to={userData?.role==='agent'?'/agent-dashboard':'/user-dashboard'}><FontAwesomeIcon icon={faArrowLeft}/></Link><div className="renty-chat-logo"><img src="/images/renty.png" alt="Renty"/><strong>renty<span>.</span></strong></div><div className="renty-chat-title"><span>Renty workspace</span><strong>Messages</strong></div></div><div className="renty-chat-head-actions"><span className="renty-chat-online"><FontAwesomeIcon icon={faCircle}/> {connected?'Connected':'Connecting'}</span><button onClick={logout}><FontAwesomeIcon icon={faArrowRightFromBracket}/> <span>Log out</span></button></div></header>
+    <main className="renty-chat-layout"><aside className="renty-chat-sidebar"><div className="renty-chat-sidebar-top"><div><p>Inbox</p><h2>Your conversations</h2></div><span>{chats.length}</span></div><form className="renty-chat-search" onSubmit={search}><FontAwesomeIcon icon={faMagnifyingGlass}/><input value={searchTerm} onChange={e=>setSearchTerm(e.target.value)} placeholder="Search by email…"/><button disabled={searching}>{searching?'…':'Search'}</button></form>{users.length>0&&<div className="renty-chat-results">{users.map(u=><button key={u.id} onClick={()=>selectUser(u)}><div className="renty-chat-avatar">{(u.name||u.username||'R').slice(0,2).toUpperCase()}</div><span><strong>{u.name||u.username||'Renty member'}</strong><small>{u.email}</small></span></button>)}</div>}<div className="renty-chat-list"><button className="renty-chat-support" onClick={()=>{setReceiverId(null);setReceiverName('')}}><div className="renty-chat-avatar dark"><FontAwesomeIcon icon={faComments}/></div><span><strong>Renty support</strong><small>We're here to help</small></span></button>{chats.map(c=><button key={c.receiverId} className={`renty-chat-list-item ${String(c.receiverId)===String(receiverId)?'active':''}`} onClick={()=>selectUser({id:c.receiverId,name:c.receiverName})}><div className="renty-chat-avatar">{(c.receiverName||'R').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase()}</div><span><strong>{c.receiverName||'Renty member'}</strong><small>Open conversation</small></span><FontAwesomeIcon icon={faArrowRight}/></button>)}</div></aside>
+    <section className="renty-chat-window">{receiverId?<><div className="renty-chat-conversation-head"><div className="renty-chat-avatar">{receiverName.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase()}</div><div><strong>{receiverName}</strong><span><FontAwesomeIcon icon={faCircle}/> Renty member</span></div></div><div className="renty-chat-messages">{loading?<div className="renty-chat-empty"><strong>Loading conversation…</strong></div>:messages.length===0?<div className="renty-chat-empty"><div><FontAwesomeIcon icon={faComments}/></div><strong>Start a conversation</strong><span>Send a message to {receiverName}.</span></div>:messages.map((m,i)=><div key={i} className={`renty-chat-message ${m.senderId===userId?'sent':''}`}><div className="renty-chat-bubble"><p>{m.message}</p><small>{m.timestamp||'Now'}</small></div></div>)}<div ref={bottomRef}/></div><form className="renty-chat-composer" onSubmit={send}><div className="renty-chat-avatar">{initials}</div><input value={newMessage} onChange={e=>setNewMessage(e.target.value)} placeholder="Write a message…"/><button disabled={!newMessage.trim()}><FontAwesomeIcon icon={faPaperPlane}/><span>Send</span></button></form></>:<div className="renty-chat-welcome"><div className="renty-chat-welcome-icon"><FontAwesomeIcon icon={faComments}/></div><h2>Your messages</h2><p>Select a conversation or search for a Renty member to start chatting.</p><Link to={userData?.role==='agent'?'/agent-dashboard':'/user-dashboard'}><FontAwesomeIcon icon={faHouse}/> Back to dashboard</Link></div>}</section></main></div>;
 };
-
 export default PrivateChat;

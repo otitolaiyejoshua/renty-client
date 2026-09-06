@@ -1,0 +1,711 @@
+/* =========================================================
+   RENTY PROPERTY INSPECTION MODAL
+   ========================================================= */
+
+.renty-inspect-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    box-sizing: border-box;
+
+    background: rgba(15, 20, 25, 0.68);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    z-index: 99999;
+
+    animation: rentyInspectOverlayIn 0.2s ease;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.renty-inspect-modal {
+    position: relative;
+
+    width: min(960px, 100%);
+    max-height: 92vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: #ffffff;
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.28),
+        0 8px 30px rgba(0, 0, 0, 0.12);
+
+    animation: rentyInspectModalIn 0.25s ease;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.renty-inspect-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(15, 20, 25, 0.72);
+    color: #ffffff;
+
+    font-size: 25px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.renty-inspect-close:hover {
+    transform: rotate(90deg);
+    background: #17212b;
+}
+
+
+/* =========================================================
+   GALLERY
+   ========================================================= */
+
+.renty-inspect-gallery {
+    width: 100%;
+    flex-shrink: 0;
+
+    background: #f3f5f7;
+}
+
+
+/* Main image */
+
+.renty-inspect-main-image {
+    position: relative;
+
+    width: 100%;
+    height: 390px;
+
+    overflow: hidden;
+
+    background: #edf0f3;
+}
+
+.renty-inspect-main-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* Image gradient */
+
+.renty-inspect-main-image::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        to top,
+        rgba(10, 15, 20, 0.55),
+        transparent 55%
+    );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.renty-inspect-price {
+    position: absolute;
+
+    left: 28px;
+    bottom: 22px;
+
+    z-index: 5;
+
+    color: #ffffff;
+
+    font-size: 26px;
+    font-weight: 800;
+
+    letter-spacing: -0.6px;
+}
+
+.renty-inspect-price span {
+    margin-left: 6px;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    opacity: 0.85;
+}
+
+
+/* =========================================================
+   GALLERY ARROWS
+   ========================================================= */
+
+.renty-gallery-arrow {
+    position: absolute;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(15, 20, 25, 0.72);
+    color: #ffffff;
+
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.renty-gallery-arrow:hover {
+    background: #17212b;
+    transform: translateY(-50%) scale(1.06);
+}
+
+.renty-gallery-prev {
+    left: 20px;
+}
+
+.renty-gallery-next {
+    right: 20px;
+}
+
+
+/* =========================================================
+   IMAGE COUNTER
+   ========================================================= */
+
+.renty-gallery-counter {
+    position: absolute;
+
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 10;
+
+    padding: 7px 11px;
+
+    border-radius: 8px;
+
+    background: rgba(15, 20, 25, 0.72);
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   THUMBNAILS
+   ========================================================= */
+
+.renty-inspect-thumbnails {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 16px;
+
+    overflow-x: auto;
+
+    background: #ffffff;
+
+    scrollbar-width: thin;
+}
+
+.renty-gallery-thumb {
+    flex: 0 0 82px;
+
+    width: 82px;
+    height: 60px;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    border: 2px solid transparent;
+    border-radius: 9px;
+
+    background: #edf0f3;
+
+    cursor: pointer;
+
+    opacity: 0.58;
+
+    transition:
+        opacity 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.renty-gallery-thumb:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.renty-gallery-thumb.active {
+    border-color: #c86b28;
+    opacity: 1;
+}
+
+.renty-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.renty-inspect-content {
+    padding: 28px 32px 26px;
+
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+}
+
+
+/* Heading */
+
+.renty-inspect-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #c86b28;
+
+    font-size: 9px;
+    font-weight: 850;
+
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.renty-inspect-heading h2 {
+    margin: 0;
+
+    color: #17212b;
+
+    font-size: 26px;
+    line-height: 1.2;
+
+    letter-spacing: -0.7px;
+}
+
+.renty-inspect-location {
+    margin: 7px 0 0;
+
+    color: #8994a0;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   FEATURES
+   ========================================================= */
+
+.renty-inspect-features {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 22px;
+}
+
+.renty-inspect-feature {
+    padding: 15px;
+
+    background: #f7f9fb;
+
+    border: 1px solid #edf0f3;
+
+    border-radius: 13px;
+
+    text-align: center;
+}
+
+.renty-inspect-feature strong {
+    display: block;
+
+    color: #17212b;
+
+    font-size: 17px;
+}
+
+.renty-inspect-feature span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #8994a0;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.renty-inspect-section {
+    margin-top: 23px;
+}
+
+.renty-inspect-section h3 {
+    margin: 0 0 8px;
+
+    color: #25313d;
+
+    font-size: 14px;
+}
+
+.renty-inspect-section p {
+    margin: 0;
+
+    color: #768391;
+
+    font-size: 11px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   AGENT
+   ========================================================= */
+
+.renty-inspect-agent {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin-top: 22px;
+    padding: 13px;
+
+    background: #fafbfc;
+
+    border: 1px solid #edf0f3;
+    border-radius: 13px;
+}
+
+.renty-inspect-agent-avatar {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background: #17212b;
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.renty-inspect-agent span {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #909aa5;
+
+    font-size: 9px;
+}
+
+.renty-inspect-agent strong {
+    display: block;
+
+    color: #273440;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.renty-inspect-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 23px;
+    padding-top: 18px;
+
+    border-top: 1px solid #edf0f3;
+}
+
+.renty-inspect-actions button {
+    min-height: 43px;
+
+    padding: 0 19px;
+
+    border-radius: 11px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.renty-inspect-secondary {
+    border: 1px solid #e0e5ea;
+
+    background: #ffffff;
+    color: #52606d;
+}
+
+.renty-inspect-secondary:hover {
+    background: #f5f7f9;
+    transform: translateY(-1px);
+}
+
+.renty-inspect-primary {
+    border: 0;
+
+    background: linear-gradient(
+        90deg,
+        #b96532,
+        #d9824a
+    );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 8px 20px rgba(185, 101, 50, 0.18);
+}
+
+.renty-inspect-primary span {
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+.renty-inspect-primary:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(185, 101, 50, 0.25);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .renty-inspect-overlay {
+        padding: 18px;
+    }
+
+    .renty-inspect-modal {
+        width: min(760px, 100%);
+    }
+
+    .renty-inspect-main-image {
+        height: 330px;
+    }
+
+    .renty-inspect-content {
+        padding: 24px 25px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .renty-inspect-overlay {
+        padding: 12px;
+    }
+
+    .renty-inspect-modal {
+        max-height: 94vh;
+        border-radius: 19px;
+    }
+
+    .renty-inspect-main-image {
+        height: 240px;
+    }
+
+    .renty-inspect-content {
+        padding: 22px 19px 20px;
+    }
+
+    .renty-inspect-heading h2 {
+        font-size: 21px;
+    }
+
+    .renty-inspect-features {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .renty-inspect-actions {
+        flex-direction: column-reverse;
+    }
+
+    .renty-inspect-actions button {
+        width: 100%;
+    }
+
+    .renty-gallery-arrow {
+        width: 36px;
+        height: 36px;
+
+        font-size: 25px;
+    }
+
+    .renty-gallery-prev {
+        left: 12px;
+    }
+
+    .renty-gallery-next {
+        right: 12px;
+    }
+
+    .renty-gallery-thumb {
+        flex-basis: 62px;
+        width: 62px;
+        height: 48px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .renty-inspect-overlay {
+        padding: 0;
+    }
+
+    .renty-inspect-modal {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+
+        border-radius: 0;
+    }
+
+    .renty-inspect-main-image {
+        height: 230px;
+    }
+
+    .renty-inspect-close {
+        top: 12px;
+        right: 12px;
+    }
+
+    .renty-inspect-price {
+        left: 17px;
+        bottom: 16px;
+
+        font-size: 22px;
+    }
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes rentyInspectOverlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes rentyInspectModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

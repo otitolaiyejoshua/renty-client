@@ -1,68 +1,50 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faShieldHalved, faBolt, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const AboutUs = React.forwardRef((props, ref) => {
+  const benefits = [
+    { icon: faShieldHalved, title: 'Trust first', text: 'A student-focused experience designed around safer, clearer housing decisions.' },
+    { icon: faBolt, title: 'Less stress', text: 'Search, compare and connect without jumping between endless listings and chats.' },
+    { icon: faUsers, title: 'Built for community', text: 'A space where students can share experiences and learn from one another.' },
+  ];
+
   return (
-    <section ref={ref} className="about-us" style={{
-      backgroundColor: '#f5f9fc',
-      padding: '80px 20px',
-      color: '#444',
-      fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
-    }}>
-      <h2 style={{ color: '#2e7dc0', fontSize: '2.8rem', textAlign: 'center', marginBottom: '40px' }}>
-        About Us
-      </h2>
-
-      <div style={{ maxWidth: '1000px', margin: '0 auto', lineHeight: '1.8' }}>
-        <section style={{ marginBottom: '40px' }}>
-          <h3 style={{ color: '#2e7dc0' }}>Who We Are</h3>
-          <p>
-            <strong>Renty</strong> is a trailblazing rental solutions platform purpose-built to connect university students with affordable, verified housing across federal institutions nationwide.
-            We’re on a mission to eliminate the stress of student accommodation by making housing safe, accessible, and tailored to student needs.
+    <section ref={ref} className="about-us section-light" id="about-us">
+      <div className="section-container about-grid">
+        <div className="about-copy">
+          <span className="section-eyebrow">Why Renty</span>
+          <h2>Housing shouldn't be the hardest part of university.</h2>
+          <p className="section-lead">
+            Renty is built around a simple idea: finding student accommodation should be easier,
+            clearer and more convenient. We bring useful listings and student-focused tools into one place.
           </p>
-        </section>
+          <div className="check-list">
+            <div><FontAwesomeIcon icon={faCheck} /> Explore accommodation around your campus</div>
+            <div><FontAwesomeIcon icon={faCheck} /> Connect with property agents directly</div>
+            <div><FontAwesomeIcon icon={faCheck} /> Keep your housing search in one place</div>
+          </div>
+        </div>
 
-        <section style={{ marginBottom: '40px' }}>
-          <h3 style={{ color: '#2e7dc0' }}>Our Vision</h3>
-          <p>
-            To revolutionize the student housing experience in Nigeria by creating a trusted ecosystem where every student can find quality, affordable housing near their campus—quickly, securely, and confidently.
-          </p>
-        </section>
+        <div className="about-panel">
+          <div className="about-panel-image">
+            <img src="/images/house.jpg" alt="Student housing" />
+          </div>
+          <div className="about-panel-content">
+            <span>Our mission</span>
+            <h3>Make finding student housing feel straightforward.</h3>
+            <p>From the first search to connecting with an agent, every part of Renty is designed to reduce friction.</p>
+          </div>
+        </div>
+      </div>
 
-        <section style={{ marginBottom: '40px' }}>
-          <h3 style={{ color: '#2e7dc0' }}>Our Mission</h3>
-          <ul style={{ paddingLeft: '20px' }}>
-            <li><strong>Accessibility:</strong> Bridge the gap between students and housing providers by curating listings in every university environment.</li>
-            <li><strong>Affordability:</strong> Provide competitively priced options that reflect the realities of student budgets.</li>
-            <li><strong>Security:</strong> Vet listings and landlords to ensure peace of mind for students and their families.</li>
-            <li><strong>Convenience:</strong> Streamline the housing search process with intuitive tools, filters, and direct messaging features.</li>
-          </ul>
-        </section>
-
-        <section style={{ marginBottom: '40px' }}>
-          <h3 style={{ color: '#2e7dc0' }}>What We Offer</h3>
-          <ul style={{ paddingLeft: '20px' }}>
-            <li><strong>Verified Listings:</strong> Access a wide range of student-appropriate rentals, from apartments to shared and dorm-style accommodations.</li>
-            <li><strong>Smart Search:</strong> Filter by price, proximity, amenities, and property type to find your perfect match with ease.</li>
-            <li><strong>Secure Interactions:</strong> Communicate directly with property owners through a secure platform, ensuring transparency and authenticity.</li>
-            <li><strong>Student Community:</strong> Join a thriving network of student users where experiences are shared, questions are answered, and guidance is exchanged.</li>
-          </ul>
-        </section>
-
-        <section style={{ marginBottom: '40px' }}>
-          <h3 style={{ color: '#2e7dc0' }}>Our Core Values</h3>
-          <ul style={{ paddingLeft: '20px' }}>
-            <li><strong>Integrity:</strong> We prioritize honesty, transparency, and trust in all our operations.</li>
-            <li><strong>Innovation:</strong> We continuously evolve our platform to stay aligned with the modern student lifestyle.</li>
-            <li><strong>Excellence:</strong> We hold ourselves to the highest standards—whether in platform performance, customer care, or user experience.</li>
-          </ul>
-        </section>
-
-        <section>
-          <h3 style={{ color: '#2e7dc0' }}>Our Story</h3>
-          <p>
-            Renty was born out of personal experience. Our founders—former students who struggled to secure suitable accommodation—recognized a systemic challenge and committed to solving it. What began as a vision has grown into a nationwide platform serving thousands of students across federal universities. Today, Renty stands as a symbol of convenience, safety, and empowerment in the student housing space.
-          </p>
-        </section>
+      <div className="section-container benefit-grid">
+        {benefits.map((benefit) => (
+          <article className="benefit-card" key={benefit.title}>
+            <div className="benefit-icon"><FontAwesomeIcon icon={benefit.icon} /></div>
+            <div><h3>{benefit.title}</h3><p>{benefit.text}</p></div>
+          </article>
+        ))}
       </div>
     </section>
   );

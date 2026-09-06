@@ -1,71 +1,51 @@
 import React from 'react';
 import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faLocationDot, faBed } from '@fortawesome/free-solid-svg-icons';
 
 const FeaturedListings = React.forwardRef((props, ref) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 700,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3500,
-    arrows: false,
-  };
-
+  const settings = { dots: true, infinite: true, speed: 650, slidesToShow: 1, slidesToScroll: 1, autoplay: true, autoplaySpeed: 4200, arrows: true, adaptiveHeight: false };
   const listings = [
-    { id: 1, image: 'images/listingimage1.jpg', description: 'Stylish Apartment with Modern Bunks – Ideal for Students' },
-    { id: 2, image: 'images/listingimage2.jpg', description: 'Elegant, Spacious Apartment with a Serene View' },
-    { id: 3, image: 'images/listingimage3.jpg', description: 'Premium Hostel Housing in Prime University Area' },
-    { id: 4, image: 'images/listingimage4.jpg', description: 'Safe and Affordable Hostel Accommodation for Undergraduates' },
+    { id: 1, image: 'images/listingimage1.jpg', title: 'Comfortable student apartment', location: 'Near campus', detail: 'A practical space designed for student living.' },
+    { id: 2, image: 'images/listingimage2.jpg', title: 'Modern apartment with a calm view', location: 'University area', detail: 'Bright interiors and a comfortable everyday layout.' },
+    { id: 3, image: 'images/listingimage3.jpg', title: 'Premium hostel accommodation', location: 'Prime student district', detail: 'A convenient option close to the university environment.' },
+    { id: 4, image: 'images/listingimage4.jpg', title: 'Affordable student housing', location: 'Campus neighbourhood', detail: 'Simple, accessible accommodation for undergraduates.' },
   ];
 
   return (
-    <section ref={ref} className="services" style={{ maxWidth: '850px', margin: '80px auto', textAlign: 'center' }}>
-      <h2 style={{
-        color: '#2e7dc0',
-        fontSize: '2.5rem',
-        marginBottom: '30px',
-        fontWeight: '600'
-      }}>
-        Featured Listings
-      </h2>
-
-      <Slider {...settings}>
-        {listings.map(listing => (
-          <div key={listing.id} className="listing-item" style={{
-            position: 'relative',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)'
-          }}>
-            <img
-              src={listing.image}
-              alt={listing.description}
-              style={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-                objectFit: 'cover'
-              }}
-            />
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              background: 'rgba(0, 0, 0, 0.5)',
-              color: '#fff',
-              padding: '15px 20px',
-              fontSize: '1.1rem',
-              fontWeight: '500',
-              textAlign: 'left'
-            }}>
-              {listing.description}
-            </div>
+    <section ref={ref} className="featured-listings" id="featured-listings">
+      <div className="section-container">
+        <div className="section-heading-row">
+          <div className="section-title">
+            <span className="section-eyebrow">Explore homes</span>
+            <h2>Featured listings</h2>
+            <p>A preview of the kind of student-friendly spaces you can discover on Renty.</p>
           </div>
-        ))}
-      </Slider>
+          <Link to="/search" className="text-link">Explore all <FontAwesomeIcon icon={faArrowRight} /></Link>
+        </div>
+
+        <div className="listing-slider-wrap">
+          <Slider {...settings}>
+            {listings.map((listing) => (
+              <div key={listing.id} className="listing-slide">
+                <article className="listing-card">
+                  <div className="listing-image-wrap">
+                    <img src={listing.image} alt={listing.title} />
+                    <span className="listing-tag">Student housing</span>
+                  </div>
+                  <div className="listing-content">
+                    <div className="listing-location"><FontAwesomeIcon icon={faLocationDot} /> {listing.location}</div>
+                    <h3>{listing.title}</h3>
+                    <p>{listing.detail}</p>
+                    <div className="listing-meta"><span><FontAwesomeIcon icon={faBed} /> Student-friendly</span><Link to="/search">View homes <FontAwesomeIcon icon={faArrowRight} /></Link></div>
+                  </div>
+                </article>
+              </div>
+            ))}
+          </Slider>
+        </div>
+      </div>
     </section>
   );
 });

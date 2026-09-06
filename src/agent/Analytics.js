@@ -1,60 +1,8 @@
-// client/src/components/Analytics.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './Analytics.css'; // Import CSS for styling
+import api from '../api/api';
+import './Analytics.css';
 import { getUserData } from '../getUserData';
-const Analytics = () => {
-    const [properties,setProperties] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBuilding, faChartLine, faCalendarCheck, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
 
-    // Fetch analytics data on component mount
-    useEffect(() => {
-        const fetchAnalytics = async () => {
-            try {
-                const userData = getUserData();
-                const agentId = userData ? userData.userId : null;
-                const token = userData ? userData.token : null;
-                const response = await axios.get(`https://renty-server.onrender.com/api/analytics/${agentId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                console.log(response.data);
-                setProperties(response.data[0].propertyCount);
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching analytics:', err.response?.data || err.message);
-                setError('Failed to load analytics data.');
-                setLoading(false);
-            }
-        };
-
-        fetchAnalytics();
-    }, []);
-
-    if (loading) return <div className="analytics-container"><p>Loading...</p></div>;
-    if (error) return <div className="analytics-container"><p>{error}</p></div>;
-
-    return (
-        <div className="analytics-container">
-            <h2>Analytics</h2>
-            <div className="analytics-cards">
-                <div className="card">
-                    <h3>Properties</h3>
-                    <p>{properties}</p>
-                </div>
-                <div className="card">
-                    <h3>Bookings</h3>
-                    <p>0</p>
-                </div>
-                <div className="card">
-                    <h3>Inspections</h3>
-                    <p>0</p>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default Analytics;
+const Analytics=()=>{const [properties,setProperties]=useState(0);const [loading,setLoading]=useState(true);const [error,setError]=useState('');const user=getUserData();useEffect(()=>{const fetch=async()=>{try{const r=await api.get(`/api/analytics/${user?.userId}`,{headers:{Authorization:`Bearer ${user?.token}`}});setProperties(r.data?.[0]?.propertyCount||0)}catch(e){console.error(e);setError('We could not load your analytics right now.')}finally{setLoading(false)}};if(user?.userId)fetch();else setLoading(false)},[user?.userId,user?.token]);if(loading)return <div className="analytics-page"><div className="analytics-loading">Loading your performance overview…</div></div>;return <div className="analytics-page"><div className="analytics-page-head"><div><p className="analytics-eyebrow">Performance</p><h1>Analytics</h1><p>Understand your property portfolio at a glance.</p></div></div>{error&&<div className="analytics-error">{error}</div>}<div className="analytics-kpis"><div className="analytics-kpi"><span className="analytics-kpi-icon"><FontAwesomeIcon icon={faBuilding}/></span><small>Properties</small><strong>{properties}</strong><em>Your current listings</em></div><div className="analytics-kpi"><span className="analytics-kpi-icon"><FontAwesomeIcon icon={faCalendarCheck}/></span><small>Bookings</small><strong>0</strong><em>Confirmed bookings</em></div><div className="analytics-kpi"><span className="analytics-kpi-icon"><FontAwesomeIcon icon={faChartLine}/></span><small>Inspections</small><strong>0</strong><em>Inspection requests</em></div><div className="analytics-kpi"><span className="analytics-kpi-icon"><FontAwesomeIcon icon={faArrowTrendUp}/></span><small>Growth</small><strong>—</strong><em>More data coming soon</em></div></div><div className="analytics-grid"><section className="analytics-panel"><div className="analytics-panel-head"><div><h3>Listing activity</h3><p>Portfolio activity over the current period</p></div><span>Overview</span></div><div className="analytics-empty-chart"><div className="analytics-bars"><i/><i/><i/><i/><i/><i/><i/></div><div className="analytics-axis"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div></section><section className="analytics-panel analytics-insight"><span className="analytics-insight-icon"><FontAwesomeIcon icon={faArrowTrendUp}/></span><h3>Keep your portfolio fresh</h3><p>Complete property information and high-quality photos help renters make faster decisions.</p></section></div></div>};export default Analytics;

@@ -1,95 +1,67 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faShieldHalved, faLocationDot, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const Main = React.forwardRef((props, ref) => {
-  const email = "otitolaiyejoshua42@gmail.com";
-  const subject = "Inquiry about services";
-  const body = "Hello,\n\nI would like to know more about your services.\n\nBest regards,\n[Your Name]";
-  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
   return (
-    <div
-      ref={ref}
-      className="main-hero"
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '5% 8%',
-        minHeight: '100vh',
-        backgroundColor: '#f5f9fc'
-      }}
-    >
-      {/* Left Section */}
-      <div style={{ width: '100%', maxWidth: '600px', flex: 1 }}>
-        <h1 style={{
-          fontSize: '3.5rem',
-          color: '#2e7dc0',
-          fontWeight: '800',
-          lineHeight: '1.2',
-          marginBottom: '20px'
-        }}>
-          Find the Perfect Home
-        </h1>
-        <p style={{
-          fontSize: '1.25rem',
-          color: '#444',
-          marginBottom: '35px',
-          lineHeight: '1.6'
-        }}>
-          Discover affordable housing near your campus. Verified agents. Trusted listings. Reliable support.
+    <main ref={ref} className="main-hero" id="home">
+      <div className="hero-orb hero-orb-one" />
+      <div className="hero-orb hero-orb-two" />
+
+      <div className="hero-content">
+        <div className="eyebrow">
+          <span className="eyebrow-dot" />
+          Student housing, made simpler
+        </div>
+
+        <h1>Find a place that feels <span>like home.</span></h1>
+        <p className="hero-copy">
+          Discover student-friendly apartments and rooms near your campus. Compare options,
+          connect with agents, and make your next move with confidence.
         </p>
-        <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-          <a href={mailtoLink} className="contact-btn" style={{
-            backgroundColor: '#2e7dc0',
-            color: '#fff',
-            padding: '15px 25px',
-            fontSize: '1rem',
-            textDecoration: 'none',
-            fontWeight: 'bold',
-            borderRadius: '6px',
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-            transition: 'all 0.3s ease'
-          }}>
-            Contact Us
-          </a>
-          <a className="contact-btn" style={{
-            border: '2px solid #2e7dc0',
-            color: '#2e7dc0',
-            padding: '15px 25px',
-            fontSize: '1rem',
-            textDecoration: 'none',
-            fontWeight: 'bold',
-            borderRadius: '6px',
-            backgroundColor: '#fff',
-            transition: 'all 0.3s ease'
-          }}>
-            Learn More
-          </a>
+
+        <div className="hero-actions">
+          <Link to="/search" className="hero-primary">
+            Find a home <FontAwesomeIcon icon={faArrowRight} />
+          </Link>
+          <a href="#how-it-works" className="hero-secondary">How Renty works</a>
+        </div>
+
+        <div className="hero-trust">
+          <span><FontAwesomeIcon icon={faShieldHalved} /> Student-focused</span>
+          <span><FontAwesomeIcon icon={faLocationDot} /> Near your campus</span>
+          <span><FontAwesomeIcon icon={faMagnifyingGlass} /> Easy to search</span>
         </div>
       </div>
 
-      {/* Right Section */}
-      <div style={{
-        flex: 1,
-        minWidth: '300px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '40px'
-      }}>
-        <img
-          src="/images/illustration-house.svg"
-          alt="Housing illustration"
-          style={{
-            width: '100%',
-            maxWidth: '500px',
-            height: 'auto',
-            animation: 'float 6s ease-in-out infinite'
-          }}
-        />
+      <div className="hero-visual" aria-label="Renty property search preview">
+        <div className="visual-glow" />
+        <div className="property-showcase">
+          <img src="/images/interiorimage.png" alt="Modern student apartment interior" />
+          <div className="showcase-gradient" />
+          <div className="showcase-topline">
+            <span className="verified-pill"><FontAwesomeIcon icon={faShieldHalved} /> Trusted listing</span>
+            <span className="showcase-heart">♡</span>
+          </div>
+          <div className="showcase-info">
+            <span>Student-friendly apartment</span>
+            <strong>Find your next home</strong>
+            <small>Comfortable spaces close to campus</small>
+          </div>
+        </div>
+        <div className="floating-card floating-card-one">
+          <span className="floating-icon"><FontAwesomeIcon icon={faLocationDot} /></span>
+          <div><small>Search smarter</small><strong>Near your campus</strong></div>
+        </div>
+        <div className="floating-card floating-card-two">
+          <span className="floating-icon"><FontAwesomeIcon icon={faShieldHalved} /></span>
+          <div><small>Built for students</small><strong>Simple & reliable</strong></div>
+        </div>
       </div>
-    </div>
+
+      <div className="hero-bottom-fade" />
+    </main>
   );
 });
 

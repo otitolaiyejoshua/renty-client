@@ -1,182 +1,166 @@
-// src/components/InspectModal.js
 import React, { useState } from 'react';
-import Modal from 'react-modal';
-import { usePaystackPayment } from 'react-paystack';
-import { PAYSTACK_PUBLIC_KEY } from './paystackConfig';
-import { getUserData } from '../getUserData'; // Adjust the path as necessary
-import Receipt from './Receipt'; // Import the Receipt component
+import './InspectModal.css';
+
+const API_URL = process.env.REACT_APP_API_URL || '';
+
+const getImageUrl = (image) => {
+    if (!image) {
+        return '/images/blank.jpg';
+    }
+
+    if (image.startsWith('http')) {
+        return image;
+    }
+
+    return `${API_URL}/uploads/${image}`;
+};
 
 const InspectModal = ({ property, onClose }) => {
-    const [expandedImage, setExpandedImage] = useState(null);
-    const [paymentReference, setPaymentReference] = useState(null);
-    const [receipt, setReceipt] = useState(null); // State for receipt
+    const [activeImage, setActiveImage] = useState(0);
 
-    // Retrieve user data
-    const userData = getUserData();
-    const userId = userData ? userData.userId : null;
-    const userEmail = userData ? userData.email : null;
-    // Retrieve agent data from property
-    const agentId = property.agentId; // Ensure 'agentId' is part of the property object
+    if (!property) return null;
+    const propertyImages = [
+        property.mainImage,
+        property.interiorImage1,
+        property.interiorImage2,
+        property.interiorImage3
+    ].filter(Boolean);
 
-    // State to manage inspection payment reference and receipt
-    const [inspectionReference, setinspectionReference] = useState(null);
-    // Initialize Paystack Payment
-    const inspectionPrice = 3500; // Convert price to kobo for inspection
-    console.log(inspectionPrice);
-    const initializePayment = usePaystackPayment({
-        email: userEmail,
-        amount: inspectionPrice, // Amount in kobo
-        reference: inspectionReference,
-        publicKey: PAYSTACK_PUBLIC_KEY,
-        metadata: {
-            propertyId: property.id,
-            userId: userId,
-            paymentType: 'inspection',
-            agentId: agentId,
-        },
-    });
 
-    // Handle successful inspection payment
-    const handleinspectionSuccess = (reference) => {
-        console.log('inspection Payment Successful!', reference);
-        // Send reference to backend for verification and recording
-        verifyPayment(reference.reference);
-    };
+    const getImageUrl = (image) => {
+        const filename =
+            typeof image === 'string'
+                ? image
+                : image?.filename || image?.image || image?.path || image?.url;
 
-    // Handle payment dialog close without completing inspection payment
-    const handleinspectionClose = () => {
-        console.log('inspection Payment dialog closed.');
-    };
+        if (!filename) return '/images/blank.jpg';
 
-    // Function to verify payment on backend
-    const verifyPayment = async (reference) => {
-        try {
-            const response = await fetch('https://renty-server.onrender.com/api/payments/payments/verify', { // Corrected endpoint
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    reference: reference,
-                    propertyId: property.id,
-                    userId: userId,
-                    paymentType: 'inspection',
-                    userEmail,
-                    agentId: agentId,
-                }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Payment Verification Failed.');
-            }
-
-            const data = await response.json();
-
-            if (data.success) {
-                // Set the receipt data
-                setReceipt(data.payment);
-            } else {
-                alert('Payment Verification Failed.');
-            }
-        } catch (error) {
-            console.error('Error verifying inspection payment:', error);
-            alert(`An error occurred during inspection payment verification: ${error.message}`);
+        if (filename.startsWith('http')) {
+            return filename;
         }
-    };
-    // Initiate inspection payment
-    const initiateInspectionPayment = () => {
-        // Send request to backend to initiate payment and get a reference
-        fetch('https://renty-server.onrender.com/api/payments/payments/initiate', { // Corrected endpoint
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: userEmail, // Use actual user email
-                amount: inspectionPrice, // Amount in kobo
-                propertyId: property.id,
-                userId: userId,
-                paymentType: 'inspection',
-                agentId: agentId,
-            }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    return response.json().then(errData => {
-                        throw new Error(errData.message || 'Failed to initiate inspection payment.');
-                    });
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.reference) {
-                    setinspectionReference(data.reference); // Set the reference for Paystack
-                    initializePayment(handleinspectionSuccess, handleinspectionClose);
-                } else {
-                    alert('Failed to initiate inspection payment.');
-                }
-            })
-            .catch((error) => {
-                console.error('Error initiating inspection payment:', error);
-                alert(`An error occurred while initiating inspection payment: ${error.message}`);
-            });
+
+        return `${API_URL}/uploads/${filename}`;
     };
 
-
-    // Handle image click to expand
-    const handleImageClick = (image) => {
-        setExpandedImage(image);
-    };
-
-    const handleCloseExpanded = () => {
-        setExpandedImage(null);
-    };
-
-    const interiorImages = [property.interiorImage1, property.interiorImage2, property.interiorImage3].filter(image => image);
+    const price = Number(property.price || 0).toLocaleString();
 
     return (
-        <>
-            <Modal
-                isOpen={true}
-                onRequestClose={onClose}
-                contentLabel="Inspect Property"
-                className="inspect-modal"
-                overlayClassName="overlay"
+        <div className="renty-inspect-overlay" onClick={onClose}>
+            <div
+                className="renty-inspect-modal"
+                onClick={(e) => e.stopPropagation()}
             >
-                <div id="inspection-content">
-                    <h2>Inspection for {property.title}</h2>
-                    <div className='image-grid'>
-                        {interiorImages.map((image, index) => (
-                            <img
-                                key={index}
-                                src={`https://renty-server.onrender.com/uploads/${image}`}
-                                alt={`Interior ${index + 1}`}
-                                onClick={() => handleImageClick(`https://renty-server.onrender.com/uploads/${image}`)}
-                            />
+                {/* Close button */}
+                <button
+                    type="button"
+                    className="renty-inspect-close"
+                    onClick={onClose}
+                    aria-label="Close property inspection"
+                >
+                    ×
+                </button>
+
+                <div className="renty-inspect-gallery">
+
+                    <div className="renty-inspect-main-image">
+
+                        <img
+                            src={getImageUrl(propertyImages[activeImage])}
+                            alt={`${property.title} ${activeImage + 1}`}
+                        />
+
+                        {propertyImages.length > 1 && (
+                            <>
+                                <button
+                                    type="button"
+                                    className="renty-gallery-arrow renty-gallery-prev"
+                                    onClick={() =>
+                                        setActiveImage(
+                                            activeImage === 0
+                                                ? propertyImages.length - 1
+                                                : activeImage - 1
+                                        )
+                                    }
+                                    aria-label="Previous property image"
+                                >
+                                    ‹
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="renty-gallery-arrow renty-gallery-next"
+                                    onClick={() =>
+                                        setActiveImage(
+                                            activeImage === propertyImages.length - 1
+                                                ? 0
+                                                : activeImage + 1
+                                        )
+                                    }
+                                    aria-label="Next property image"
+                                >
+                                    ›
+                                </button>
+                            </>
+                        )}
+
+                        <div className="renty-gallery-counter">
+                            {activeImage + 1} / {propertyImages.length}
+                        </div>
+
+                        <div className="renty-inspect-price">
+                            ₦{Number(property.price || 0).toLocaleString()}
+                            <span>/ month</span>
+                        </div>
+
+                    </div>
+
+                    {propertyImages.length > 1 && (
+                        <div className="renty-inspect-thumbnails">
+
+                            {propertyImages.map((image, index) => (
+                                <button
+                                    type="button"
+                                    key={`${image}-${index}`}
+                                    className={`renty-gallery-thumb ${index === activeImage ? 'active' : ''
+                                        }`}
+                                    onClick={() => setActiveImage(index)}
+                                >
+                                    <img
+                                        src={getImageUrl(image)}
+                                        alt={`${property.title} thumbnail ${index + 1}`}
+                                    />
+                                </button>
+                            ))}
+
+                        </div>
+                    )}
+
+                </div>
+                {propertyImages.length > 1 && (
+                    <div className="renty-inspect-thumbnails">
+                        {propertyImages.map((image, index) => (
+                            <button
+                                type="button"
+                                key={`${image}-${index}`}
+                                className={`renty-gallery-thumb ${index === activeImage ? 'active' : ''
+                                    }`}
+                                onClick={() => setActiveImage(index)}
+                            >
+                                <img
+                                    src={getImageUrl(image)}
+                                    alt={`Property ${index + 1}`}
+                                />
+                            </button>
                         ))}
                     </div>
-                    <div className='inspection-actions'>
-                        <button className='inspection-buttons' onClick={onClose}>Satisfied with Online Inspection</button>
-                        <button className='inspection-buttons' onClick={initiateInspectionPayment}>
-                            Pay For Physical Inspection
-                        </button>
-                    </div>
-                </div>
-                {expandedImage && (
-                    <div className='expanded-image'>
-                        <img src={expandedImage} alt='expanded' onClick={handleCloseExpanded} />
-                    </div>
                 )}
-            </Modal>
-            
-            {/* Receipt Modal */}
-            <Receipt
-                isOpen={!!receipt}
-                onClose={() => setReceipt(null)}
-                payment={receipt}
-            />
-        </>
+
+            </div>
+            <div className="renty-inspect-price">
+                ₦{price}
+                <span>/ month</span>
+            </div>
+        </div>
     );
 };
 
