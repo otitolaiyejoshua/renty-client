@@ -2,19 +2,6 @@ import React, { useState } from 'react';
 import './InspectModal.css';
 
 const API_URL = process.env.REACT_APP_API_URL || '';
-
-const getImageUrl = (image) => {
-    if (!image) {
-        return '/images/blank.jpg';
-    }
-
-    if (image.startsWith('http')) {
-        return image;
-    }
-
-    return `${API_URL}/uploads/${image}`;
-};
-
 const InspectModal = ({ property, onClose }) => {
     const [activeImage, setActiveImage] = useState(0);
 

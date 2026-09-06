@@ -3,7 +3,7 @@ import './GroupForum.css';
 import socket from '../socket';
 import { getUserData } from '../getUserData';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faUsers, faCircle, faArrowDown, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUsers, faCircle, faRotate } from '@fortawesome/free-solid-svg-icons';
 
 const API_URL = process.env.REACT_APP_API_URL || '';
 

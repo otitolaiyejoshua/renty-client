@@ -44,7 +44,6 @@ const Properties = () => {
           },
         });
         setProperties(response.data);
-        console.log(properties);
       } catch (error) {
         console.error('Error fetching properties:', error);
       }
@@ -190,20 +189,19 @@ const Properties = () => {
   const toggleMenu = (propertyId) => {
     setShowMenu(showMenu === propertyId ? null : propertyId);
   };
+useEffect(() => { 
+  const handleClickOutside = (event) => { 
+    if (showMenu && !event.target.closest('.agent-menu-content')) { 
+      setShowMenu(null); 
+    } 
+  }; 
 
-  const handleClickOutside = (event) => {
-    if (showMenu && !event.target.closest('.agent-menu-content')) {
-      setShowMenu(null);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showMenu]);
-
+  document.addEventListener('mousedown', handleClickOutside); 
+  return () => { 
+    document.removeEventListener('mousedown', handleClickOutside); 
+  }; 
+}, [showMenu]); 
+ 
   return (
     <div className="agent-properties-page"><div className="agent-properties-breadcrumb"><Link to="/agent-dashboard">← Dashboard</Link><span>/</span><strong>My properties</strong></div>
       <h2>My Properties</h2>
