@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useLocation, Link } from 'react-router-dom';
+import { Outlet, useLocation} from 'react-router-dom';
 import Header from './Header';
 import Navbar from './Navbar';
 import WelcomeMessage from './WelcomeMessage';
