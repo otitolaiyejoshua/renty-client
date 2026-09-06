@@ -61,7 +61,6 @@
     "babel-preset-react-app": "^10.0.1"
   },
   "engines": {
-    "node": "18.x",
-    "npm": "8.x"
-  }
+  "node": "24.x"
+}
 }
